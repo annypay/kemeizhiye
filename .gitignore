@@ -19,9 +19,8 @@ Thumbs.db
 .DS_Store
 desktop.ini
 
-# ── 压缩包（已有展开目录的冗余 zip） ──
-# 取消注释下面行以忽略 zip：
-# *.zip
+# ── 冗余 zip（已有展开目录）
+土建相关合同/合同.zip
 
 # ── IDE / 编辑器 ──
 .vscode/
