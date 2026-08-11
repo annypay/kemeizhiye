@@ -1,0 +1,35 @@
+# ── Office 临时文件 ──
+~$*
+
+# ── 版本管理 ──
+* - 副本/
+*- 副本/
+*副本/
+
+# ── 备份文件 ──
+*.bak
+*bak.docx
+*bak.xlsx
+
+# ── 空占位文件（issue 标记用） ──
+重要工作推进单issue.docx
+
+# ── 系统文件 ──
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# ── 压缩包（已有展开目录的冗余 zip） ──
+# 取消注释下面行以忽略 zip：
+# *.zip
+
+# ── IDE / 编辑器 ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Node（未来如添加脚本） ──
+node_modules/
+package-lock.json
