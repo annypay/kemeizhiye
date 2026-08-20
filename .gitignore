@@ -32,3 +32,6 @@ desktop.ini
 # ── Node（未来如添加脚本） ──
 node_modules/
 package-lock.json
+
+# ── 冗余 zip（已解压展开目录的压缩包）
+*.zip
