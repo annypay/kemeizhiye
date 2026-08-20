@@ -169,6 +169,48 @@ node scripts/gen_index.js    # 重新生成 INDEX.md
 | 新增通报 | 基于 v2 模板填制 → 分配 JK 编号 → `04-进度督察/通报与处罚存档/各专业通报/` |
 | 会议录音 | `03-例会汇报/董事长例会/会议录音/YYYY-MM-DD/`，注意体积（见 TODO） |
 
+### 8.4 Git 推送与网络代理（网络维护）
+
+**背景**：本机直连 GitHub 的 443 端口不稳定（DNS 会解析到被拦截的节点，连接时通时断），需通过 **v2rayN 代理（SOCKS5，端口 10808）** 推送。
+
+**当前生效配置**：
+
+| 作用域 | 配置项 | 值 | 作用 |
+|--------|--------|-----|------|
+| 全局 | `http.proxy` / `https.proxy` | `socks5://127.0.0.1:10808` | 所有仓库推送走代理 |
+| 本地（本仓库） | `http.postBuffer` | `524288000` | 500MB 缓冲，防大文件推送断连 |
+| 本地（本仓库） | `http.version` | `HTTP/1.1` | 避开 HTTP/2 大流量问题 |
+
+**正常推送（走代理）**：
+1. 保持 **v2rayN 开启**（10808 端口监听）；
+2. 命令行：`git push origin master`；
+3. VS Code：Source Control 面板点「推送」按钮即可 —— VS Code 底层调用系统 `git.exe`，复用上述全局配置，效果与命令行一致。
+
+**回退到非代理（直连）状态**：
+```bash
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+验证（应无输出）：`git config --global --get http.proxy`
+
+**恢复代理**：
+```bash
+git config --global http.proxy socks5://127.0.0.1:10808
+git config --global https.proxy socks5://127.0.0.1:10808
+```
+
+**排查命令**：
+```bash
+# 测试代理连通性（返回 HTTP:200 即正常）
+curl.exe -x socks5://127.0.0.1:10808 -sS -o NUL -w "HTTP:%{http_code}`n" https://github.com
+# 测试直连连通性（True=通 / False=被拦截）
+Test-NetConnection github.com -Port 443
+# 检查代理端口是否监听
+Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -eq 10808 }
+```
+
+> 注意：v2rayN 默认 **10808 = SOCKS5**、**10809 = HTTP**（本机当前仅监听 10808）。若更换端口，同步修改上方两条 `http.proxy` 即可。
+
 ---
 
 ## 九、待办事项（TODO）
@@ -188,6 +230,7 @@ node scripts/gen_index.js    # 重新生成 INDEX.md
 
 | 日期 | 变更 |
 |------|------|
+| 2026-08-20 | 新增「8.4 Git 推送与网络代理」维护说明（v2rayN SOCKS5 代理 + 直连回退方案） |
 | 2026-08-20 | 目录体系彻底重构（00-09 数字前缀 + _archive + 00-临时存放）；INDEX.md 脚本自动生成；README 瘦身重写；3 个冗余 zip 停止追踪 |
 | 2026-08-19 | 应急预案发布（碎解车间事件经验固化） |
 | 2026-08-18 | 保安管理文档（规范+日报模板，双人编制） |
