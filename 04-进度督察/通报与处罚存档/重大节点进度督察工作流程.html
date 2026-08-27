@@ -188,87 +188,96 @@
 <div class="container">
 
 <h1>🏗️ 重大节点进度追踪督察工作流程【此处以土建计划流程示例】 — 工作流程</h1>
-<p class="subtitle">江西柯美纸业有限公司 · 莲花柯美项目总经办  |  编号体系：JK-2026-xxxx</p>
+<p class="subtitle">江西柯美纸业有限公司 · 莲花柯美项目总经办  |  事项编号：JK-RW-YYYY-NNNN  |  通报编号：JK-YYYY-NNNN</p>
 
 <!-- ====== 一、核心流程图（优化版） ====== -->
 <div class="card">
   <h2>📊 一、核心流程图（含通报、存档、抄送）</h2>
   <div class="mermaid">
 flowchart TD
-    A["📥<br/>土建单位上传<br/>巷道图施工计划"] --> A1["🗄️<br/>计划原件归档<br/>（按日期+专业编号）"]
+  A["📥<br/>收计划与反馈<br/>按专业、日期归档"] --> A1["🗄️<br/>原始计划归档<br/>01-进度计划/"]
 
-    A1 --> B["📋<br/>提取完成节点<br/>生成汇总表（按日期升序）"]
+  A1 --> B["📋<br/>理节点并登记/更新事项<br/>工作事项总台账（JK-RW）"]
 
-    B --> C["⏰<br/>每日对照汇总表<br/>列出当天需完成事项"]
+  B --> C["⏰<br/>日/周对照节点与台账<br/>列出到期和超期事项"]
 
-    C --> D{"确认方式"}
+  C --> D{"确认方式"}
 
-    D -->|"方式一"| E["📸<br/>截图当天事项<br/>发送土建施工方确认"]
-    D -->|"方式二"| F["👷<br/>我方项目部人员<br/>现场实地核查确认"]
+  D -->|"方式一"| E["📸<br/>责任方回执<br/>保留截图或书面反馈"]
+  D -->|"方式二"| F["👷<br/>项目部现场核查<br/>保留核查记录"]
 
-    E --> G{"✅<br/>是否按期<br/>完成？"}
-    F --> G
+  E --> G{"✅<br/>是否按期<br/>完成？"}
+  F --> G
 
-    G -->|"是 · 已完成"| H["📝<br/>记录完成状态<br/>原件归档备查"]
+  G -->|"是 · 已完成反馈"| H["📝<br/>登记完成反馈<br/>事项转为待复查"]
 
-    G -->|"否 · 未完成"| I{"❗<br/>判定逾期程度<br/>及当月历史记录"}
+  G -->|"否 · 未完成"| I{"❗<br/>核验逾期事实<br/>及当月正式通报记录"}
 
-    I -->|"当月首次<br/>未完成"| J1["🟡 填制《重大节点进度追踪通报》<br/>JK-2026-xxxx 编号<br/>级别：通报"]
-    I -->|"通报后再次<br/>未完成"| K1["🟠 填制《重大节点进度追踪通报》<br/>JK-2026-xxxx 编号<br/>级别：警告"]
-    I -->|"第三次未完成<br/>或重大影响"| L1["🔴 填制《重大节点进度追踪通报》<br/>JK-2026-xxxx 编号<br/>级别：罚款"]
+  I -->|"当月首次<br/>未完成"| J1["🟡 拟通报草案<br/>不占 JK 编号"]
+  I -->|"通报后再次<br/>未完成"| K1["🟠 拟警告草案<br/>补齐签批与抄送要求"]
+  I -->|"第三次未完成<br/>或重大影响"| L1["🔴 拟罚款草案<br/>补齐事实与审批依据"]
 
-    J1 --> J2["📢<br/>拍照发工作群<br/>限当日内提交整改计划"]
+  J1 --> J2["📢<br/>总经办确认签发后<br/>分配 JK 编号并归档"]
+  K1 --> K2["📋<br/>总经办确认签发后<br/>登记通报及处罚存档"]
+  L1 --> L2["📋<br/>总经办确认签发后<br/>登记通报及处罚存档"]
 
-    K1 --> K2["📋<br/>登记《重大节点进度追踪处罚存档》<br/>抄送行政部、采购部"]
+  J2 --> M
+  K2 --> M
+  L2 --> M
 
-    L1 --> L2["📋<br/>登记《重大节点进度追踪处罚存档》<br/>上报公司领导"]
+  M["⏳<br/>更新事项、证据路径和整改期限<br/>持续跟踪复查"] --> N["🔁<br/>整改到期复查<br/>补复查日期与证据"]
 
-    J2 --> M
-    K2 --> M
-    L2 --> M
+  H --> N
+  N --> O{"复查通过？"}
+  O -->|"是"| P["✅<br/>事项标为已关闭<br/>保留证据/归档路径"]
+  O -->|"否"| C
+  P --> C
 
-    M["⏳<br/>设定整改期限<br/>持续跟踪复查"] --> N["🔁<br/>整改到期复查<br/>纳入下次重点对象"]
-
-    H --> O["🔄<br/>更新汇总表<br/>标注完成/未完成状态"]
-    N --> O
-    O --> C
-
-    style A fill:#e3f2fd,stroke:#1565c0
-    style A1 fill:#ede7f6,stroke:#4527a0
-    style B fill:#e8f5e9,stroke:#2e7d32
-    style C fill:#fff3e0,stroke:#ef6c00
-    style H fill:#e8f5e9,stroke:#2e7d32
-    style J1 fill:#fff9c4,stroke:#f9a825
-    style J2 fill:#fff9c4,stroke:#f9a825
-    style K1 fill:#ffe0b2,stroke:#ef6c00
-    style K2 fill:#ffe0b2,stroke:#ef6c00
-    style L1 fill:#ffcdd2,stroke:#c62828
-    style L2 fill:#ffcdd2,stroke:#c62828
-    style M fill:#e8eaf6,stroke:#3949ab
-    style N fill:#e8eaf6,stroke:#3949ab
-    style O fill:#e3f2fd,stroke:#1565c0
+  style A fill:#e3f2fd,stroke:#1565c0
+  style A1 fill:#ede7f6,stroke:#4527a0
+  style B fill:#e8f5e9,stroke:#2e7d32
+  style C fill:#fff3e0,stroke:#ef6c00
+  style H fill:#e8f5e9,stroke:#2e7d32
+  style J1 fill:#fff9c4,stroke:#f9a825
+  style J2 fill:#fff9c4,stroke:#f9a825
+  style K1 fill:#ffe0b2,stroke:#ef6c00
+  style K2 fill:#ffe0b2,stroke:#ef6c00
+  style L1 fill:#ffcdd2,stroke:#c62828
+  style L2 fill:#ffcdd2,stroke:#c62828
+  style M fill:#e8eaf6,stroke:#3949ab
+  style N fill:#e8eaf6,stroke:#3949ab
+  style P fill:#e3f2fd,stroke:#1565c0
   </div>
 </div>
 
 <!-- ====== 二、双文档联动机制 ====== -->
 <div class="card">
-  <h2>📎 二、双文档联动与痕迹追踪</h2>
+  <h2>📎 二、台账、通报与证据联动</h2>
 
   <h3 style="font-size:15px;color:#555;margin-bottom:14px;">2.1 文档联动关系</h3>
   <div class="doc-linkage">
     <div class="doc-card active">
-      <div class="doc-icon">📄</div>
-      <h4>重大节点进度追踪通报</h4>
-      <p>JK-2026-xxxx<br/>每次发现问题时填制<br/>拍照发群 + 原件存档</p>
+      <div class="doc-icon">📋</div>
+      <h4>工作事项总台账</h4>
+      <p>JK-RW-YYYY-NNNN<br/>唯一执行状态来源<br/>关联来源、证据和复查</p>
     </div>
     <div style="text-align:center;">
       <div class="link-arrow">→</div>
-      <div class="link-label">含 警告/罚款 时<br/>联动登记</div>
+      <div class="link-label">核验未完成事实后<br/>拟通报草案</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-icon">📄</div>
+      <h4>重大节点进度追踪通报</h4>
+      <p>确认签发后分配<br/>JK-YYYY-NNNN<br/>正式文件归档</p>
+    </div>
+    <div style="text-align:center;">
+      <div class="link-arrow">→</div>
+      <div class="link-label">警告/罚款时<br/>联动登记</div>
     </div>
     <div class="doc-card">
       <div class="doc-icon">🗂️</div>
-      <h4>重大节点进度追踪处罚存档</h4>
-      <p>累计处罚台账<br/>逐条登记、终身追溯<br/>抄送行政部 + 采购部</p>
+      <h4>通报与处罚存档</h4>
+      <p>正式通报、签批、抄送<br/>及处罚记录留存<br/>回链事项台账复查</p>
     </div>
   </div>
 
@@ -278,31 +287,31 @@ flowchart TD
       <th>#</th><th>环节</th><th>产生的痕迹/文件</th><th>载体</th><th>留存位置</th>
     </tr>
     <tr>
-      <td>1</td><td>收计划</td><td>巷道图施工计划原件</td><td><span class="tag tag-file">.xlsx</span></td><td>01_施工计划/巷道图原件</td>
+      <td>1</td><td>收计划</td><td>计划原件及版本</td><td><span class="tag tag-file">.xlsx</span></td><td>01-进度计划/</td>
     </tr>
     <tr>
-      <td>2</td><td>理节点</td><td>完成节点汇总表（版本管理，含日期戳）</td><td><span class="tag tag-file">.xlsx</span></td><td>01_施工计划/完成节点汇总表</td>
+      <td>2</td><td>理节点</td><td>完成节点汇总表（版本管理，含日期戳）</td><td><span class="tag tag-file">.xlsx</span></td><td>04-进度督察/节点汇总/</td>
     </tr>
     <tr>
-      <td>3</td><td>日对照</td><td>每日到期事项截图 / 对比清单</td><td><span class="tag tag-img">截图</span></td><td>02_日报督察/每日截图</td>
+      <td>3</td><td>事项登记</td><td>来源、责任、期限、状态、复查安排</td><td><span class="tag tag-doc">.md</span></td><td>04-进度督察/工作台账/工作事项总台账.md</td>
     </tr>
     <tr>
-      <td>4</td><td>确认</td><td>施工方回执（微信/书面） / 项目部现场核查记录</td><td><span class="tag tag-img">截图/签字</span></td><td>02_日报督察/确认回执</td>
+      <td>4</td><td>日对照与确认</td><td>到期对比清单、责任方回执或现场核查记录</td><td><span class="tag tag-img">截图/签字</span></td><td>04-进度督察/节点汇总/（在台账关联路径）</td>
     </tr>
     <tr>
-      <td>5</td><td>完成</td><td>汇总表标注"已完成" + 完成日期</td><td><span class="tag tag-file">.xlsx</span></td><td>01_施工计划/完成节点汇总表</td>
+      <td>5</td><td>完成反馈</td><td>完成反馈、日期及待复查状态</td><td><span class="tag tag-doc">.md</span></td><td>工作事项总台账（不得直接关闭）</td>
     </tr>
     <tr>
-      <td>6</td><td>通报</td><td>《重大节点进度追踪通报》JK-2026-xxxx 原件</td><td><span class="tag tag-doc">.docx</span></td><td>03_通报文件</td>
+      <td>6</td><td>通报</td><td>确认签发的《重大节点进度追踪通报》JK-YYYY-NNNN 原件</td><td><span class="tag tag-doc">.docx</span></td><td>04-进度督察/通报与处罚存档/各专业通报/</td>
     </tr>
     <tr>
-      <td>7</td><td>存档</td><td>《重大节点进度追踪处罚存档》登记记录</td><td><span class="tag tag-doc">.docx</span></td><td>04_处罚存档</td>
+      <td>7</td><td>编号与存档</td><td>JK 编号流水、处罚记录、正式附件</td><td><span class="tag tag-doc">.md/.docx</span></td><td>04-进度督察/工作台账/ 与 通报与处罚存档/</td>
     </tr>
     <tr>
-      <td>8</td><td>签批</td><td>经办人 / 责任人 / 总监 / 总经理 签名</td><td><span class="tag tag-sign">手签</span></td><td>05_签批记录</td>
+      <td>8</td><td>签批</td><td>经办人 / 责任人 / 总监 / 总经理签批</td><td><span class="tag tag-sign">手签</span></td><td>与正式通报同目录或作为可定位附件</td>
     </tr>
     <tr>
-      <td>9</td><td>复查</td><td>整改到期复查对比记录</td><td><span class="tag tag-img">截图/签字</span></td><td>06_整改复查</td>
+      <td>9</td><td>复查关闭</td><td>整改到期复查记录、复查日期和证据路径</td><td><span class="tag tag-img">截图/签字</span></td><td>节点汇总/通报附件，并回写工作事项总台账</td>
     </tr>
   </table>
 </div>
@@ -311,35 +320,20 @@ flowchart TD
 <div class="card">
   <h2>📁 三、归档目录结构</h2>
   <div class="archive-tree">
-<span class="dir">莲花柯美项目/</span>
-<span class="dir">├── 01_施工计划/</span>
-<span class="dir">│   ├── 巷道图原件/</span>          <span class="cmt">← 土建单位原始上传文件</span>
-<span class="file">│   │   ├── 碎解车间_8月计划_20260731.xlsx</span>
-<span class="file">│   │   ├── 4600车间_8月计划_20260727.xlsx</span>
-<span class="file">│   │   └── ...</span>
-<span class="dir">│   └── 完成节点汇总表/</span>        <span class="cmt">← 每次更新带日期版本</span>
-<span class="file">│       ├── 土建完成节点汇总_20260805_v1.xlsx</span>
-<span class="file">│       └── 土建完成节点汇总_20260812_v2.xlsx</span>
+<span class="dir">总经办文档/</span>
+<span class="dir">├── 01-进度计划/</span>
+<span class="dir">│   └── 月度计划表/YYYY.MM/土建/</span>      <span class="cmt">← 原始计划及版本</span>
 <span class="dir">│</span>
-<span class="dir">├── 02_日报督察/</span>
-<span class="dir">│   ├── 每日截图/</span>              <span class="cmt">← 当天到期事项截图，按日期命名</span>
-<span class="file">│   │   ├── 2026-08-05_到期事项.png</span>
-<span class="file">│   │   └── ...</span>
-<span class="dir">│   └── 确认回执/</span>              <span class="cmt">← 施工方/项目部确认截图</span>
-<span class="dir">│</span>
-<span class="dir">├── 03_通报文件/</span>               <span class="cmt">← 每份通报独立子目录</span>
-<span class="dir">│   ├── JK-2026-0001_碎解车间_通报/</span>
-<span class="file">│   │   ├── 重大节点进度追踪通报_JK-2026-0001.docx</span>
-<span class="file">│   │   └── 群发截图_JK-2026-0001.png</span>
-<span class="dir">│   └── JK-2026-0002_4600车间_警告/</span>
-<span class="file">│       └── ...</span>
-<span class="dir">│</span>
-<span class="dir">├── 04_处罚存档/</span>
-<span class="file">│   └── 重大节点进度追踪处罚存档.docx</span>  <span class="cmt">← 累计台账，持续更新</span>
-<span class="dir">│</span>
-<span class="dir">├── 05_签批记录/</span>               <span class="cmt">← 签名扫描件</span>
-<span class="dir">│</span>
-<span class="dir">└── 06_整改复查/</span>               <span class="cmt">← 整改前后对比</span>
+<span class="dir">└── 04-进度督察/</span>
+<span class="dir">    ├── 工作台账/</span>                  <span class="cmt">← 在办事项与正式 JK 编号</span>
+<span class="file">    │   ├── 工作事项总台账.md</span>
+<span class="file">    │   └── JK-通报编号流水.md</span>
+<span class="dir">    ├── 节点汇总/</span>                  <span class="cmt">← 汇总表、反馈标注及复查证据</span>
+<span class="dir">    │   └── 各专业反馈标注的汇总表/</span>
+<span class="dir">    └── 通报与处罚存档/</span>            <span class="cmt">← 正式通报、签批、抄送和处罚存档</span>
+<span class="dir">        ├── 各专业通报/</span>
+<span class="file">        │   └── YYYYMMDD-总经办-重大节点进度追踪通报-JK-YYYY-NNNN.docx</span>
+<span class="file">        └── 重大节点进度督察工作流程.html</span>
   </div>
 </div>
 
@@ -354,13 +348,13 @@ flowchart TD
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <h3>理节点</h3>
-      <p>提取完成节点 → 日期升序汇总表，标注版本号，纳入追踪</p>
+      <h3>理节点与事项</h3>
+      <p>提取完成节点，登记或更新 JK-RW 事项，关联来源和期限</p>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <h3>日对照</h3>
-      <p>每日对照当天到期事项，截图发送施工方或项目部现场确认</p>
+      <h3>日/周对照</h3>
+      <p>对照到期和超期事项，留存责任方回执或项目部现场核查</p>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
@@ -369,18 +363,18 @@ flowchart TD
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <h3>出通报</h3>
-      <p>未完成即填制通报 JK-2026-xxxx，拍照发群，需签字签批</p>
+      <h3>拟报与签发</h3>
+      <p>核验未完成事实后形成草案；确认签发才分配 JK 编号</p>
     </div>
     <div class="step-card">
       <div class="step-num">6</div>
       <h3>登记存档</h3>
-      <p>警告/罚款级联动登记处罚存档，抄送行政部+采购部</p>
+      <p>登记 JK 流水、正式通报、签批和抄送；更新事项复查安排</p>
     </div>
     <div class="step-card">
       <div class="step-num">7</div>
       <h3>闭环复查</h3>
-      <p>整改到期复查对比，更新汇总表，纳入下次重点跟踪对象</p>
+      <p>整改到期复查并关联证据；通过后才将事项标为已关闭</p>
     </div>
   </div>
 </div>
@@ -418,14 +412,14 @@ flowchart TD
   <h2>🔢 六、通报编号与签批规则</h2>
   <table class="trace-table">
     <tr><th style="width:25%;">要素</th><th>规则</th></tr>
-    <tr><td><strong>通报编号</strong></td><td>JK-2026-xxxx（JK=柯美，年份-流水号），按发生时间顺序递增，不重复</td></tr>
+    <tr><td><strong>编号分工</strong></td><td>事项使用 JK-RW-YYYY-NNNN；通报使用 JK-YYYY-NNNN，只有总经办确认正式签发后才按《JK-通报编号流水》递增分配，草案不占号</td></tr>
     <tr><td><strong>经办人</strong></td><td>督察组负责人，填制通报并签字</td></tr>
     <tr><td><strong>责任人/单位</strong></td><td>被通报的施工单位负责人签字确认（通报级）</td></tr>
     <tr><td><strong>总监确认</strong></td><td>警告级及以上须总监签字确认</td></tr>
     <tr><td><strong>总经理</strong></td><td>罚款级须总经理签字批准</td></tr>
     <tr><td><strong>签发</strong></td><td>江西柯美纸业有限公司 总经办</td></tr>
     <tr><td><strong>抄送</strong></td><td>通报：工作群拍照发送；警告/罚款：另抄送行政部、采购部</td></tr>
-    <tr><td><strong>存档</strong></td><td>通报打印后拍照发送至工作群，原件存档备查；处罚存档为累计台账，持续更新</td></tr>
+    <tr><td><strong>存档与关闭</strong></td><td>通报、签批、抄送和处罚记录按真实目录归档；责任方完成反馈仅为待复查，复查日期与可定位证据齐全后才能在工作事项台账关闭</td></tr>
   </table>
 </div>
 

@@ -8,15 +8,14 @@ description: '检查并发布仓库变更：卫生检查、重建 INDEX 索引�
 ## 流程
 
 1. `git status --short` 确认变更范围；`00-临时存放/` 新文件默认不提交（铁律）；
-2. `node scripts/check_repo.js`：
-   - **新增违规**（本次文件引起）→ 必须先处理；
-   - **历史告警**（重复后缀 / 大文件 / 锁文件，对照 README 第九节 TODO）→ 放行，不扩大范围；
-3. `git add` 逐个指定目标文件，禁止无差别 `git add -A`（避免裹挟临时区半成品）；
-4. `node scripts/gen_index.js`，然后 `git add INDEX.md`；
-5. 审查：`git diff --cached --check`（空白错误）与 `git diff --cached --name-status`（范围仅限本次）；
-6. 中文 commit：前缀 `docs:`（文档）/ `feat:`（新目录或体系）/ `chore:`（脚本维护）；
-7. `git push origin master`；
-8. `git status -sb` 确认 `master...origin/master` 无 ahead/behind，工作区干净。
+2. `git add` 逐个指定目标文件，禁止无差别 `git add -A`（避免裹挟临时区半成品）；
+3. `node scripts/check_repo.js --staged`：本次暂存内容的新增违规必须先处理；默认全库检查仅用于卫生审计，现有重复后缀/大文件/锁文件告警按 README 第九节 TODO 处理，不扩大本次范围。
+4. 若暂存内容涉及 `04-进度督察/工作台账/`，运行 `node scripts/check_work_ledger.js`；校验不通过不得提交。
+5. `node scripts/gen_index.js`，然后 `git add INDEX.md`；再次运行 `node scripts/check_repo.js --staged`。
+6. 审查：`git diff --cached --check`（空白错误）与 `git diff --cached --name-status`（范围仅限本次）；
+7. 中文 commit：前缀 `docs:`（文档）/ `feat:`（新目录或体系）/ `chore:`（脚本维护）；
+8. `git push origin master`；
+9. `git status -sb` 确认 `master...origin/master` 无 ahead/behind，工作区干净。
 
 ## 推送失败排查
 
