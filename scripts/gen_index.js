@@ -57,7 +57,7 @@ function main() {
     lines.push(`## ${d}`);
     lines.push('');
     lines.push('| 文件 | 大小 | 修改日期 |');
-    lines.push('|------|------|----------|');
+    lines.push('| --- | --- | --- |');
     for (const f of tree.get(d).sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))) {
       lines.push(`| \`${f.name}\` | ${fmtSize(f.size)} | ${f.mtime} |`);
     }
@@ -66,7 +66,7 @@ function main() {
   lines.push('---');
   lines.push('');
   lines.push('*本文件由脚本生成，请勿手工编辑；文件增删后运行 `node scripts/gen_index.js` 重新生成。*');
-  fs.writeFileSync(OUT, lines.join('\n'), 'utf8');
+  fs.writeFileSync(OUT, lines.join('\n').replace(/\n+$/, '') + '\n', 'utf8');
   console.log('OK INDEX.md written:', files.length, 'files,', dirs.length, 'directories');
 }
 

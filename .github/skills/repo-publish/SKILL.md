@@ -20,7 +20,7 @@ description: '检查并发布仓库变更：卫生检查、重建 INDEX 索引�
 ## 推送失败排查
 
 | 现象 | 动作 |
-|------|------|
+| --- | --- |
 | 连接超时 | 确认 v2rayN 开启且 10808 端口监听（`Get-NetTCPConnection -State Listen`） |
 | 端口正常仍失败 | `curl.exe -x socks5://127.0.0.1:10808 -sS -o NUL -w "HTTP:%{http_code}" https://github.com` 应返回 200 |
 | 需切换直连/恢复代理 | 按 README 8.4 的 git config 命令操作 |

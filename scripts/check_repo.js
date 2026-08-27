@@ -14,7 +14,7 @@ const ROOT = path.resolve(__dirname, '..');
 const issues = [];
 const stagedOnly = process.argv.includes('--staged');
 const allowedDirs = /^(0\d-|_archive$|scripts$|参考资料$|\.git$|\.github$)/;
-const allowedRootFiles = ['README.md', 'INDEX.md', 'AGENTS.md', '.gitignore'];
+const allowedRootFiles = ['README.md', 'INDEX.md', 'AGENTS.md', '.gitignore', '.markdownlint.json'];
 
 function run(cmd) {
   try { return execSync(cmd, { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }); }
