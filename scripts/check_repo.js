@@ -58,9 +58,9 @@ function walk(dir, rel) {
 }
 walk(ROOT, '');
 
-// 3. 根目录散文件（只允许 00-09 目录、_archive、scripts、README/INDEX/.gitignore/.git）
+// 3. 根目录散文件（只允许 00-09 目录、参考资料、_archive、scripts、README/INDEX/.gitignore/.git）
 const topLevel = fs.readdirSync(ROOT);
-const allowedDirs = /^(0\d-|_archive$|scripts$|\.git$)/;
+const allowedDirs = /^(0\d-|_archive$|scripts$|参考资料$|\.git$)/;
 for (const en of topLevel) {
   const isDir = fs.statSync(path.join(ROOT, en)).isDirectory();
   if (isDir) {
