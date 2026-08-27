@@ -1,7 +1,7 @@
 # 总经办文档 · 全文索引
 
-> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-08-27 05:23
-> 共 485 个文件。目录分类导航见 `README.md`，本索引按目录逐一列出文件。
+> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-08-27 06:01
+> 共 487 个文件。目录分类导航见 `README.md`，本索引按目录逐一列出文件。
 
 ## 目录速览
 
@@ -9,14 +9,14 @@
 - [_archive/2026-07-周例会历史](#_archive2026-07-周例会历史)（4 个文件）
 - [_archive/2026-08-月度计划副本存档](#_archive2026-08-月度计划副本存档)（9 个文件）
 - [.github/instructions](#githubinstructions)（2 个文件）
-- [.github/prompts](#githubprompts)（3 个文件）
+- [.github/prompts](#githubprompts)（4 个文件）
 - [.github/skills/doc-intake](#githubskillsdoc-intake)（1 个文件）
 - [.github/skills/jk-notice](#githubskillsjk-notice)（1 个文件）
 - [.github/skills/meeting-minutes](#githubskillsmeeting-minutes)（1 个文件）
 - [.github/skills/repo-publish](#githubskillsrepo-publish)（1 个文件）
 - [.github/skills/weekly-meeting](#githubskillsweekly-meeting)（1 个文件）
 - [.github/skills/work-tracker](#githubskillswork-tracker)（1 个文件）
-- [（根目录）](#根目录)（6 个文件）
+- [（根目录）](#根目录)（7 个文件）
 - [00-临时存放](#00-临时存放)（3 个文件）
 - [01-进度计划](#01-进度计划)（1 个文件）
 - [01-进度计划/月度计划表/2026.07](#01-进度计划月度计划表202607)（8 个文件）
@@ -119,6 +119,7 @@
 
 | 文件 | 大小 | 修改日期 |
 | --- | --- | --- |
+| `.markdownlint.json` | 66 B | 2026-08-27 |
 | `report-gap.prompt.md` | 770 B | 2026-08-27 |
 | `who.prompt.md` | 786 B | 2026-08-27 |
 | `work-status.prompt.md` | 924 B | 2026-08-27 |
@@ -165,10 +166,11 @@
 | --- | --- | --- |
 | `.gitattributes` | 182 B | 2026-08-27 |
 | `.gitignore` | 592 B | 2026-08-20 |
-| `.markdownlint.json` | 47 B | 2026-08-27 |
+| `.markdownlint-cli2.jsonc` | 183 B | 2026-08-27 |
+| `.markdownlint.json` | 132 B | 2026-08-27 |
 | `AGENTS.md` | 3.7 KB | 2026-08-27 |
 | `INDEX.md` | 50.0 KB | 2026-08-27 |
-| `README.md` | 18.1 KB | 2026-08-27 |
+| `README.md` | 18.8 KB | 2026-08-27 |
 
 ## 00-临时存放
 

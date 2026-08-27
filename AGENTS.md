@@ -27,7 +27,7 @@
 1. `00-临时存放/` 的新文件**不自动提交**，除非用户明确要求；
 2. 归档以用户终稿为准：用户改了 Office 版 → 回写 md 源头；否则以 md 为源生成 Office 版；
 3. `INDEX.md` 只能由 `node scripts/gen_index.js` 生成；
-4. 根目录只允许 `README.md` / `INDEX.md` / `AGENTS.md` / `.gitignore` / `.gitattributes` / `.markdownlint.json` / `.github/` 及规范目录；
+4. 根目录只允许 `README.md` / `INDEX.md` / `AGENTS.md` / `.gitignore` / `.gitattributes` / `.markdownlint.json` / `.markdownlint-cli2.jsonc` / `.github/` 及规范目录；
 5. 新文件默认先进 `00-临时存放/`，用户确认后走入库流程（技能 `/doc-intake`）。
 6. `04-进度督察/工作台账/工作事项总台账.md` 是事项执行状态唯一来源；既有 `JK-RW` 编号不得删除、复用或因文件入库自动关闭。
 7. “已关闭”必须同时有复查日期和可定位证据/归档路径；草案、口头反馈、模板或流程示例均不得作为关闭或处罚依据。

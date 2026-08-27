@@ -27,7 +27,7 @@
 | — | [`_会话记录/`](_会话记录/README.md) | Copilot 会话历史与记忆快照 | 由 `scripts/sync_chat.js` 同步，不手改、不入全文索引 |
 | — | [`_archive/`](_archive/) | 历史归档：旧版本、过月文件、副本存档 | 不参与日常检索，保留 Git 历史 |
 
-**根目录只允许存在**：`README.md`、`INDEX.md`、`AGENTS.md`、`.gitignore`、`.gitattributes`、`.markdownlint.json`、`.github/`（Agent 定制）和上述目录。任何新文件先进 `00-临时存放/`，定稿后入库。
+**根目录只允许存在**：`README.md`、`INDEX.md`、`AGENTS.md`、`.gitignore`、`.gitattributes`、`.markdownlint.json`、`.markdownlint-cli2.jsonc`、`.github/`（Agent 定制）和上述目录。任何新文件先进 `00-临时存放/`，定稿后入库。
 
 ---
 
@@ -177,6 +177,8 @@ node scripts/check_repo.js           # 全库卫生审计：历史告警按第�
 node scripts/gen_index.js            # 根据已暂存文件重新生成 INDEX.md
 ```
 
+**Markdown 规范**：规则见 `.markdownlint.json`，检查范围见 `.markdownlint-cli2.jsonc`。按中文公文实际调校：关闭 MD013（80 字符行宽，不适用于中文与表格）与 MD036（加粗落款），MD024 仅比较同级标题，表格统一 compact 风格；`INDEX.md`、`_会话记录/`、`_archive/`、`00-临时存放/` 为生成物或草稿区，不参与检查。执行 `npx markdownlint-cli2 "**/*.md"` 应为 0 告警。
+
 ### 8.3 各专项流程
 
 | 事项 | 操作 |
@@ -283,6 +285,7 @@ node scripts/sync_chat.js --import     # 换电脑：仓库 → VS Code
 
 | 日期 | 变更 |
 | --- | --- |
+| 2026-08-27 | Markdown 规范治理：按中文公文实际调校 MD013/MD024/MD036 并固化检查范围（生成物与草稿区不检查），全库告警清零（8.2 节） |
 | 2026-08-27 | 会话记录随仓库迁移：新增 `_会话记录/` 与 `scripts/sync_chat.js`（导出/导入 Copilot 会话与记忆），根目录白名单与全文索引同步适配（8.6 节） |
 | 2026-08-27 | 建立工作事项闭环督办体系：新增工作事项总台账、JK 通报编号流水、台账校验与暂存区卫生检查；新增事项跟踪/会议纪要/督察通报技能及状态速查提示，周例会、入库、发布流程同步接入 |
 | 2026-08-27 | Agent 能力体系 Phase 1+2：根部 `AGENTS.md` 常驻规则；`.github/` 技能（doc-intake / repo-publish / weekly-meeting）与提示（report-gap / who）；check_repo 白名单同步（8.5 节） |
