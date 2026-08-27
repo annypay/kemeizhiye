@@ -22,7 +22,9 @@ function fmtSize(n) {
 }
 
 function main() {
-  const files = run('git -c core.quotePath=false ls-files').trim().split('\n').filter(Boolean);
+  const files = run('git -c core.quotePath=false ls-files').trim().split('\n')
+    .filter(Boolean)
+    .filter(f => !f.startsWith('_会话记录/')); // Copilot 会话快照不入业务索引
   const now = new Date();
   const tree = new Map(); // dirPath -> [{name, size, mtime}]
 

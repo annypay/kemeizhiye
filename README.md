@@ -24,9 +24,10 @@
 | **08** | [`08-安保与应急/`](08-安保与应急/) | 保安管理（规范+日报）+ 应急预案 | 三格式分工：md 源头 / docx 打印版 / xlsx 填报版 |
 | **09** | [`09-外部调研/`](09-外部调研/单位情况/) | 外部企业信息调研 | `公司信息汇总v3.xlsx` 为权威汇总 |
 | **参考资料** | [`参考资料/`](参考资料/README.md) | 静态参考资料区（组织架构、岗位说明书等） | `岗位说明书5.10/` 原始资料及 [组织架构总览](参考资料/岗位说明书5.10/20260827/组织架构总览.html) |
+| — | [`_会话记录/`](_会话记录/README.md) | Copilot 会话历史与记忆快照 | 由 `scripts/sync_chat.js` 同步，不手改、不入全文索引 |
 | — | [`_archive/`](_archive/) | 历史归档：旧版本、过月文件、副本存档 | 不参与日常检索，保留 Git 历史 |
 
-**根目录只允许存在**：`README.md`、`INDEX.md`、`AGENTS.md`、`.gitignore`、`.markdownlint.json`、`.github/`（Agent 定制）和上述目录。任何新文件先进 `00-临时存放/`，定稿后入库。
+**根目录只允许存在**：`README.md`、`INDEX.md`、`AGENTS.md`、`.gitignore`、`.gitattributes`、`.markdownlint.json`、`.github/`（Agent 定制）和上述目录。任何新文件先进 `00-临时存放/`，定稿后入库。
 
 ---
 
@@ -245,8 +246,21 @@ Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -eq 10808 }
 | 技能 | `.github/skills/` | `/doc-intake` 文档入库、`/repo-publish` 检查发布、`/weekly-meeting` 周例会归集、`/meeting-minutes` 纪要草案、`/work-tracker` 事项闭环、`/jk-notice` 督察通报 |
 | 提示 | `.github/prompts/` | `/report-gap` 本周缺报速查、`/who` 人员岗位速查、`/work-status` 在办事项状态速查 |
 | 范围指令 | `.github/instructions/` | 工作事项台账的证据关闭门槛、会议纪要的三版同源与事项移交约束 |
+| 会话记录 | `_会话记录/` | Copilot 历史对话与记忆，随仓库迁移（见 8.6） |
 
 聊天输入 `/` 即可调用。当前能力不自动签发通报、不自动处罚，也不依据口头反馈关闭事项；合同台账和自动化强约束另行评估。
+
+### 8.6 会话记录同步（换电脑接续）
+
+VS Code 把聊天记录存在用户目录的 `workspaceStorage/<工作区哈希>/`，不支持改指向项目文件夹，且哈希因机器而异。因此以 `_会话记录/` 作为可移植副本，用脚本双向同步：
+
+```bash
+node scripts/sync_chat.js --status     # 查看两侧状态
+node scripts/sync_chat.js --export     # 阶段性收尾：VS Code → 仓库
+node scripts/sync_chat.js --import     # 换电脑：仓库 → VS Code
+```
+
+换电脑流程：`git pull` → 用 VS Code 打开本文件夹一次 → `--import` → 重新加载窗口。详见 [会话记录 README](_会话记录/README.md)。会话内容会随仓库推送，不要在对话中粘贴密码或密钥。
 
 ---
 
@@ -269,6 +283,7 @@ Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -eq 10808 }
 
 | 日期 | 变更 |
 | --- | --- |
+| 2026-08-27 | 会话记录随仓库迁移：新增 `_会话记录/` 与 `scripts/sync_chat.js`（导出/导入 Copilot 会话与记忆），根目录白名单与全文索引同步适配（8.6 节） |
 | 2026-08-27 | 建立工作事项闭环督办体系：新增工作事项总台账、JK 通报编号流水、台账校验与暂存区卫生检查；新增事项跟踪/会议纪要/督察通报技能及状态速查提示，周例会、入库、发布流程同步接入 |
 | 2026-08-27 | Agent 能力体系 Phase 1+2：根部 `AGENTS.md` 常驻规则；`.github/` 技能（doc-intake / repo-publish / weekly-meeting）与提示（report-gap / who）；check_repo 白名单同步（8.5 节） |
 | 2026-08-27 | 新增「参考资料/」静态资料区：导入岗位说明书5.10（组织架构图 + 岗位说明书 + Visio/PDF 源文件，238 文件）；发布可检索的 `组织架构总览.html` |
