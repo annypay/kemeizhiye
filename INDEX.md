@@ -1,14 +1,18 @@
 # 总经办文档 · 全文索引
 
-> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-08-27 03:51
-> 共 466 个文件。目录分类导航见 `README.md`，本索引按目录逐一列出文件。
+> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-08-27 04:06
+> 共 472 个文件。目录分类导航见 `README.md`，本索引按目录逐一列出文件。
 
 ## 目录速览
 
 - [_archive](#_archive)（1 个文件）
 - [_archive/2026-07-周例会历史](#_archive2026-07-周例会历史)（4 个文件）
 - [_archive/2026-08-月度计划副本存档](#_archive2026-08-月度计划副本存档)（9 个文件）
-- [（根目录）](#根目录)（3 个文件）
+- [.github/prompts](#githubprompts)（2 个文件）
+- [.github/skills/doc-intake](#githubskillsdoc-intake)（1 个文件）
+- [.github/skills/repo-publish](#githubskillsrepo-publish)（1 个文件）
+- [.github/skills/weekly-meeting](#githubskillsweekly-meeting)（1 个文件）
+- [（根目录）](#根目录)（4 个文件）
 - [00-临时存放](#00-临时存放)（3 个文件）
 - [01-进度计划](#01-进度计划)（1 个文件）
 - [01-进度计划/月度计划表/2026.07](#01-进度计划月度计划表202607)（8 个文件）
@@ -99,13 +103,39 @@
 | `月度工作计划表_项目工艺_刘义田.xlsx` | 12.4 KB | 2026-08-02 |
 | `制浆8月度工作计划表_施建林.xlsx` | 12.1 KB | 2026-08-02 |
 
+## .github/prompts
+
+| 文件 | 大小 | 修改日期 |
+|------|------|----------|
+| `report-gap.prompt.md` | 752 B | 2026-08-27 |
+| `who.prompt.md` | 799 B | 2026-08-27 |
+
+## .github/skills/doc-intake
+
+| 文件 | 大小 | 修改日期 |
+|------|------|----------|
+| `SKILL.md` | 2.6 KB | 2026-08-27 |
+
+## .github/skills/repo-publish
+
+| 文件 | 大小 | 修改日期 |
+|------|------|----------|
+| `SKILL.md` | 1.5 KB | 2026-08-27 |
+
+## .github/skills/weekly-meeting
+
+| 文件 | 大小 | 修改日期 |
+|------|------|----------|
+| `SKILL.md` | 1.6 KB | 2026-08-27 |
+
 ## （根目录）
 
 | 文件 | 大小 | 修改日期 |
 |------|------|----------|
 | `.gitignore` | 592 B | 2026-08-20 |
+| `AGENTS.md` | 2.9 KB | 2026-08-27 |
 | `INDEX.md` | 48.3 KB | 2026-08-27 |
-| `README.md` | 13.6 KB | 2026-08-27 |
+| `README.md` | 14.4 KB | 2026-08-27 |
 
 ## 00-临时存放
 

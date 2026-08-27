@@ -58,15 +58,15 @@ function walk(dir, rel) {
 }
 walk(ROOT, '');
 
-// 3. 根目录散文件（只允许 00-09 目录、参考资料、_archive、scripts、README/INDEX/.gitignore/.git）
+// 3. 根目录散文件（只允许 00-09 目录、参考资料、_archive、scripts、.github、README/INDEX/AGENTS/.gitignore/.git）
 const topLevel = fs.readdirSync(ROOT);
-const allowedDirs = /^(0\d-|_archive$|scripts$|参考资料$|\.git$)/;
+const allowedDirs = /^(0\d-|_archive$|scripts$|参考资料$|\.git$|\.github$)/;
 for (const en of topLevel) {
   const isDir = fs.statSync(path.join(ROOT, en)).isDirectory();
   if (isDir) {
     if (!allowedDirs.test(en)) issues.push(`[根目录非规范目录] ${en}/`);
   } else {
-    if (!['README.md', 'INDEX.md', '.gitignore'].includes(en)) issues.push(`[根目录散文件] ${en}`);
+    if (!['README.md', 'INDEX.md', 'AGENTS.md', '.gitignore'].includes(en)) issues.push(`[根目录散文件] ${en}`);
   }
 }
 
