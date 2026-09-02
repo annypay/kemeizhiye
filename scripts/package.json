@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "description": "总经办文档库脚本依赖",
+  "scripts": {
+    "test": "node --test test_*.js"
+  },
+  "dependencies": {
+    "docx": "9.7.1"
+  }
+}

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老厂搬迁闲置资产处置组织架构及流程图</title>
+<style>
+  :root {
+    --ink: #18232f;
+    --muted: #5d6873;
+    --line: #cfd7dd;
+    --paper: #ffffff;
+    --ground: #edf1f2;
+    --blue: #0f5d7a;
+    --blue-soft: #dceef3;
+    --green: #32734a;
+    --green-soft: #e4f1e7;
+    --gold: #9a6717;
+    --gold-soft: #fff1d8;
+    --red: #9a3e36;
+    --red-soft: #f9e4e0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    line-height: 1.55;
+  }
+
+  .page {
+    width: min(1440px, calc(100% - 32px));
+    margin: 28px auto 48px;
+  }
+
+  .masthead {
+    border-top: 7px solid var(--blue);
+    background: var(--paper);
+    padding: 30px 34px 26px;
+  }
+
+  .eyebrow {
+    margin: 0 0 8px;
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  h1, h2, h3, p { margin-top: 0; }
+
+  h1 {
+    margin-bottom: 8px;
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .notice {
+    display: grid;
+    grid-template-columns: 156px 1fr;
+    gap: 18px;
+    align-items: center;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--gold);
+    background: var(--gold-soft);
+    font-size: 14px;
+  }
+
+  .notice strong { color: #70480c; }
+
+  section {
+    margin-top: 22px;
+    background: var(--paper);
+    padding: 28px 30px;
+  }
+
+  .section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  h2 {
+    margin-bottom: 0;
+    font-size: 21px;
+    line-height: 1.3;
+  }
+
+  .section-heading p {
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: right;
+  }
+
+  .overview {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .overview-item {
+    min-height: 108px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--blue);
+  }
+
+  .overview-item:nth-child(2) { border-top-color: var(--green); }
+  .overview-item:nth-child(3) { border-top-color: var(--gold); }
+  .overview-item strong { display: block; margin-bottom: 5px; font-size: 15px; }
+  .overview-item span { color: var(--muted); font-size: 13px; }
+
+  .org-chart {
+    display: grid;
+    justify-items: center;
+    gap: 0;
+    padding: 4px 0 0;
+  }
+
+  .org-node {
+    width: min(100%, 590px);
+    padding: 16px 18px;
+    border: 1px solid var(--blue);
+    background: var(--blue-soft);
+    text-align: center;
+  }
+
+  .org-node h3, .role-card h3, .gate-card h3 { margin-bottom: 4px; font-size: 16px; }
+  .org-node p, .role-card p, .gate-card p { margin-bottom: 0; font-size: 13px; }
+  .org-node p { color: #315467; }
+
+  .connector-v {
+    width: 1px;
+    height: 31px;
+    background: var(--line);
+    position: relative;
+  }
+
+  .connector-v::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: -4px;
+    width: 7px;
+    height: 7px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transform: rotate(45deg);
+  }
+
+  .office-node {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+
+  .office-node p { color: #386146; }
+
+  .role-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    gap: 12px;
+    padding-top: 30px;
+  }
+
+  .role-grid::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12.5%;
+    right: 12.5%;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .role-card {
+    position: relative;
+    min-height: 142px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    background: #fbfcfc;
+  }
+
+  .role-card::before {
+    content: "";
+    position: absolute;
+    top: -31px;
+    left: 50%;
+    width: 1px;
+    height: 30px;
+    background: var(--line);
+  }
+
+  .role-card h3 { color: var(--blue); }
+  .role-card p { color: var(--muted); }
+  .role-card.support { border-top: 3px solid var(--gold); }
+  .role-card.support h3 { color: var(--gold); }
+
+  .separation {
+    margin-top: 20px;
+    padding: 13px 15px;
+    border: 1px solid #e6c681;
+    background: var(--gold-soft);
+    color: #6d501c;
+    font-size: 14px;
+  }
+
+  .separation strong { color: #5d3e08; }
+
+  .flow-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px 20px;
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .key { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 12px; height: 12px; border: 1px solid var(--line); }
+  .swatch.main { background: var(--blue-soft); border-color: var(--blue); }
+  .swatch.gate { background: var(--gold-soft); border-color: var(--gold); transform: rotate(45deg); }
+  .swatch.end { background: var(--green-soft); border-color: var(--green); }
+  .swatch.stop { background: var(--red-soft); border-color: var(--red); }
+
+  .flow-wrap { overflow-x: auto; padding-bottom: 8px; }
+
+  .flow-map {
+    min-width: 1110px;
+    display: grid;
+    grid-template-columns: 205px 33px 205px 33px 205px 33px 205px 33px 205px;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 8px 24px;
+  }
+
+  .flow-node {
+    min-height: 144px;
+    padding: 15px 14px;
+    border: 1px solid var(--blue);
+    background: var(--blue-soft);
+  }
+
+  .flow-node small, .decision small {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 12px;
+  }
+
+  .flow-node h3, .decision h3 { margin-bottom: 6px; font-size: 16px; line-height: 1.35; }
+  .flow-node p, .decision p { margin-bottom: 0; color: #426372; font-size: 13px; }
+
+  .flow-arrow {
+    height: 1px;
+    background: var(--line);
+    position: relative;
+  }
+
+  .flow-arrow::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    transform: rotate(45deg);
+  }
+
+  .decision {
+    position: relative;
+    min-height: 142px;
+    padding: 18px 20px;
+    border: 1px solid var(--gold);
+    background: var(--gold-soft);
+    clip-path: polygon(8% 0, 92% 0, 100% 50%, 92% 100%, 8% 100%, 0 50%);
+  }
+
+  .decision small { color: var(--gold); }
+  .decision p { color: #745b32; }
+
+  .flow-stage { margin-top: 10px; }
+
+  .stage-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 10px;
+    color: var(--blue);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .stage-title::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+
+  .stage-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .stage-card {
+    min-height: 156px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    background: #fbfcfc;
+    position: relative;
+  }
+
+  .stage-card:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -12px;
+    width: 12px;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .stage-card:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: calc(50% - 3px);
+    right: -12px;
+    width: 6px;
+    height: 6px;
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    transform: rotate(45deg);
+  }
+
+  .stage-num {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .stage-card h3 { margin-bottom: 6px; font-size: 15px; line-height: 1.35; }
+  .stage-card p { margin-bottom: 0; color: var(--muted); font-size: 13px; }
+
+  .stage-card.end { border-color: var(--green); background: var(--green-soft); }
+  .stage-card.end .stage-num { color: var(--green); }
+  .stage-card.end p { color: #41634c; }
+
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .gate-card {
+    min-height: 155px;
+    padding: 14px;
+    border: 1px solid #e6c681;
+    border-top: 4px solid var(--gold);
+    background: var(--gold-soft);
+  }
+
+  .gate-card h3 { color: #74510e; }
+  .gate-card p { color: #6d5b39; }
+
+  .exception-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .exception {
+    padding: 15px;
+    border-left: 4px solid var(--red);
+    background: var(--red-soft);
+  }
+
+  .exception h3 { margin-bottom: 5px; color: var(--red); font-size: 15px; }
+  .exception p { margin-bottom: 0; color: #754d48; font-size: 13px; }
+
+  .evidence-table {
+    width: 100%;
+    margin-top: 18px;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .evidence-table th, .evidence-table td {
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .evidence-table th { background: #e6eef1; color: #24495b; }
+  .evidence-table td:first-child { width: 19%; font-weight: 700; }
+  .evidence-table td:nth-child(2) { width: 35%; }
+  .evidence-table td:last-child { color: var(--muted); }
+
+  .source-note {
+    margin: 22px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .overview, .role-grid, .stage-grid, .gate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .role-grid::before { left: 25%; right: 25%; }
+    .exception-grid { grid-template-columns: 1fr; }
+    .stage-card:nth-child(2)::after, .stage-card:nth-child(4)::after,
+    .stage-card:nth-child(2)::before, .stage-card:nth-child(4)::before { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .page { width: min(100% - 20px, 1440px); margin-top: 10px; }
+    .masthead, section { padding: 22px 18px; }
+    h1 { font-size: 24px; }
+    .notice { grid-template-columns: 1fr; gap: 5px; }
+    .section-heading { display: block; }
+    .section-heading p { margin-top: 5px; text-align: left; }
+    .overview, .role-grid, .stage-grid, .gate-grid { grid-template-columns: 1fr; }
+    .role-grid::before { display: none; }
+    .role-card::before { left: 20px; }
+    .stage-card::after, .stage-card::before { display: none; }
+    .evidence-table { min-width: 680px; }
+  }
+
+  @media print {
+    body { background: #ffffff; }
+    .page { width: 100%; margin: 0; }
+    section, .masthead { break-inside: avoid; }
+    .flow-wrap { overflow: visible; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">江西柯美纸业有限公司 | 老厂搬迁闲置资产处置专项方案配套图示</p>
+    <h1>组织架构与处置流程图</h1>
+    <p class="subtitle">用于高层审阅：谁决策、谁统筹、谁执行、在哪些节点必须升级或暂停。</p>
+    <div class="notice">
+      <strong>使用边界</strong>
+      <span>本图严格依据《老厂搬迁闲置资产处置专项方案（草案）》编制，岗位名单、金额阈值和有权审批层级仍以公司正式审定结果为准。</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-heading">
+      <h2>一、专项组织架构</h2>
+      <p>领导小组定规则和决例外，资产处置办统筹推进，岗位分工执行并相互制衡。</p>
+    </div>
+
+    <div class="overview">
+      <div class="overview-item">
+        <strong>决策层</strong>
+        <span>审定专项计划、权限和重大或例外事项，解决跨部门争议。</span>
+      </div>
+      <div class="overview-item">
+        <strong>统筹层</strong>
+        <span>统一台账、统一计划、统一报批、统一督办和一案一档。</span>
+      </div>
+      <div class="overview-item">
+        <strong>执行与监督层</strong>
+        <span>技术、交易、资金、交割、安环和监督职责分开，不得一人全程控制。</span>
+      </div>
+    </div>
+
+    <div class="org-chart">
+      <div class="org-node">
+        <h3>老厂搬迁闲置资产处置工作领导小组</h3>
+        <p>组长：公司主要负责人；常务副组长：总经理；成员由相关职能岗位负责人组成。</p>
+        <p>审定专项计划、授权标准、竞价规则和重大/例外事项；审阅进展、监督检查和结案报告。</p>
+      </div>
+      <div class="connector-v"></div>
+      <div class="org-node office-node">
+        <h3>老厂资产处置办公室</h3>
+        <p>挂靠总经办统筹协调；设备生产负责技术清查；采购负责市场征集与交易组织。</p>
+        <p>统一维护清查表、专项台账、问题清单和档案目录，组织方案报批并督办时限。</p>
+      </div>
+      <div class="connector-v"></div>
+      <div class="role-grid">
+        <article class="role-card">
+          <h3>源头与技术</h3>
+          <p>使用/生产部门提出申请、确认现场、组织经批准的拆卸和移交。</p>
+          <p>设备生产技术完成编码、鉴定、成套性和可修复性判断。</p>
+        </article>
+        <article class="role-card">
+          <h3>保管与交易</h3>
+          <p>仓储分区保管、登记数量和出入库，凭交割单放行。</p>
+          <p>采购/市场收集市场信息，组织询价、竞价、拍卖或协议交易。</p>
+        </article>
+        <article class="role-card">
+          <h3>资金与交割</h3>
+          <p>财务核对账卡和资金，参与过磅，确认到账、开票和账务处理。</p>
+          <p>交割须由买方、现场/仓储、财务和监督见证共同确认。</p>
+        </article>
+        <article class="role-card support">
+          <h3>监督与合规</h3>
+          <p>行政人资/监督岗位全程跟踪、比价和纪律监督。</p>
+          <p>安全环保审查拆卸、吊装、运输和特殊物资；合同审查/内控审计负责风险与复核。</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="separation">
+      <strong>职责分离红线：</strong>技术鉴定、价格建议、交易组织、收款、交割和监督原则上由不同岗位承担。任何事项至少具备业务提出、技术确认、财务核验、交易组织、监督见证五类职责。
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>二、资产处置主流程</h2>
+      <p>所有资产先确认、再分类、后交易；未通过控制闸门不得进入下一步。</p>
+    </div>
+
+    <div class="flow-key">
+      <span class="key"><i class="swatch main"></i>主流程节点</span>
+      <span class="key"><i class="swatch gate"></i>审批或判断闸门</span>
+      <span class="key"><i class="swatch end"></i>完成并归档</span>
+      <span class="key"><i class="swatch stop"></i>暂停并升级</span>
+    </div>
+
+    <div class="flow-wrap" aria-label="资产处置总流程">
+      <div class="flow-map">
+        <article class="flow-node">
+          <small>01 启动</small>
+          <h3>全量清查与现场封存</h3>
+          <p>核对实物、账卡、资料和责任人；编码、拍照、登记铭牌、附件和状态。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="decision">
+          <small>控制闸门 A</small>
+          <h3>权属及资料是否清楚？</h3>
+          <p>待核实资产单列清单并暂停处置，不得先拆后评或直接出售。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="flow-node">
+          <small>02 分类</small>
+          <h3>技术鉴定与分类保管</h3>
+          <p>按内部调剂、整机出售、修复/高价值部件、一般回收物、专项合规物资分类。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="decision">
+          <small>控制闸门 B</small>
+          <h3>内部是否有再利用需求？</h3>
+          <p>有需求的办理调拨或继续使用；无需求的进入对外处置方案。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="flow-node">
+          <small>03 方案</small>
+          <h3>形成批次处置方案</h3>
+          <p>明确资产清单、处置方式、底价依据、市场计划、买方条件、安环要求和风险措施。</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="flow-stage">
+      <div class="stage-title">交易、交割与结案</div>
+      <div class="stage-grid">
+        <article class="stage-card">
+          <span class="stage-num">04 审批</span>
+          <h3>按权限审定方案和底价</h3>
+          <p>A/B/C 类金额阈值按公司授权填列。低于底价、关联方、流拍等例外事项必须集体研究。</p>
+        </article>
+        <article class="stage-card">
+          <span class="stage-num">05 市场征集</span>
+          <h3>公开征集、询价或竞价</h3>
+          <p>整机及高价值部件优先竞争性处置；一般回收物原则上不少于三家有效报价。</p>
+        </article>
+        <article class="stage-card">
+          <span class="stage-num">06 定标签约</span>
+          <h3>资格审查、成交审批、合同审查</h3>
+          <p>核验买方主体、履约与拆运能力、关联关系；保留报价、比价和成交记录。</p>
+        </article>
+        <article class="stage-card">
+          <span class="stage-num">07 收款交割</span>
+          <h3>对公到账后方可放行</h3>
+          <p>落实保证金或履约保障；安环确认后拆运；共同签交割单，过磅和影像同步留存。</p>
+        </article>
+        <article class="stage-card end">
+          <span class="stage-num">08 结案</span>
+          <h3>账务核销与一案一档</h3>
+          <p>更新设备、仓储和财务台账；资料齐全后形成专项处置结案单，提请结案。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>三、五个必须守住的控制闸门</h2>
+      <p>流程效率不能替代资产价值、资金安全和安全环保合规。</p>
+    </div>
+
+    <div class="gate-grid">
+      <article class="gate-card">
+        <h3>1. 资产清楚</h3>
+        <p>账、卡、物和责任人可核对；成套设备附件与高价值部件单列；待核实即暂停。</p>
+      </article>
+      <article class="gate-card">
+        <h3>2. 价值清楚</h3>
+        <p>先判断内部利用与整机价值，再考虑材料回收；价格依据应能复核，不以废铁价替代设备价值。</p>
+      </article>
+      <article class="gate-card">
+        <h3>3. 审批清楚</h3>
+        <p>方案、底价、成交结果和例外事项均有签批。不得拆分批次或合同规避审批。</p>
+      </article>
+      <article class="gate-card">
+        <h3>4. 资金清楚</h3>
+        <p>款项直接进入公司对公账户；财务核验磅单、结算单与到账凭证一致，先款后货。</p>
+      </article>
+      <article class="gate-card">
+        <h3>5. 交割清楚</h3>
+        <p>拆运条件、数量状态、附件、出入库、影像和交割签字齐全后，方可从专项台账销号。</p>
+      </article>
+    </div>
+
+    <div class="exception-grid">
+      <article class="exception">
+        <h3>暂停处置并核实</h3>
+        <p>权属、数量、技术状态不清；存在质押、租赁、争议或政府补助限制；特殊物资尚未完成安全环保识别、隔离或资质核验。</p>
+      </article>
+      <article class="exception">
+        <h3>直接提交领导小组集体研究</h3>
+        <p>低于底价、流拍后再次处置、关联方竞购、核心或成套设备、重大安环风险、可能影响搬迁进度或公司声誉的事项。</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>四、每个环节应形成的关键痕迹</h2>
+      <p>以“一案一档、账实相符、可追溯”为结案底线。</p>
+    </div>
+
+    <div class="flow-wrap">
+      <table class="evidence-table">
+        <thead>
+          <tr>
+            <th>环节</th>
+            <th>必须留存的核心资料</th>
+            <th>主要责任岗位</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>清查与分类</td>
+            <td>资产清查与分类登记表、账卡核验、资产编码、现场影像、待核实清单</td>
+            <td>资产处置办、使用/生产、设备生产技术、仓储、财务</td>
+          </tr>
+          <tr>
+            <td>方案与审批</td>
+            <td>技术鉴定及处置方案审批表、内部调剂核验、价格依据、底价建议、签批或会议纪要</td>
+            <td>资产处置办、技术、采购/市场、财务、监督、领导小组</td>
+          </tr>
+          <tr>
+            <td>市场与成交</td>
+            <td>发布记录、买方资格审查、关联关系声明、询价/竞价与成交记录、合同审查意见</td>
+            <td>采购/市场、合同审查、行政人资及监督</td>
+          </tr>
+          <tr>
+            <td>收款与交割</td>
+            <td>对公到账凭证、保证金或履约保障、磅单、装车与现场影像、资产交割确认单</td>
+            <td>财务、仓储/现场保管、安全环保、监督见证</td>
+          </tr>
+          <tr>
+            <td>核销与结案</td>
+            <td>开票和账务处理凭据、设备/仓储/财务台账更新记录、专项处置结案单、完整档案目录</td>
+            <td>资产处置办、财务、设备生产技术、仓储、内控审计</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="source-note">编制依据：2026 年 9 月 2 日《江西柯美纸业有限公司老厂搬迁闲置资产处置专项方案（草案）》第二部分“成立通知（拟）”、第三部分第二章至第六章、第四部分“专项启动与推进要求”、第五部分“附件表单字段”。本图不新增岗位、金额阈值、审批层级或处置规则。</p>
+  </section>
+</main>
+</body>
+</html>
