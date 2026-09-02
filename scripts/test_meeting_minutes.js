@@ -250,6 +250,26 @@ test("正式校验强制倒计时行整体加粗", () => {
   }
 });
 
+test("正式校验拒绝章节标题附加具体日期区间", () => {
+  const root = createTempRoot();
+  try {
+    const week = "20260831-20260906";
+    const directory = path.join(root, "03-例会汇报", "董事长例会", "会议纪要", week);
+    fs.mkdirSync(directory, { recursive: true });
+    for (const variant of ["董事长版", "总经理版", "完整版（群发）"]) {
+      const markdownName = `${week}-董事长例会纪要-${variant}.md`;
+      fs.writeFileSync(path.join(directory, markdownName), variantContent(week, variant), "utf8");
+      fs.writeFileSync(path.join(directory, `${week}-董事长例会纪要-${variant}.docx`), Buffer.from([0x50, 0x4b, 0x03, 0x04]));
+    }
+    const groupPath = path.join(directory, `${week}-董事长例会纪要-完整版（群发）.md`);
+    fs.writeFileSync(groupPath, fs.readFileSync(groupPath, "utf8").replace("## 三、重点工作时间节点", "## 三、重点工作时间节点（9.1—9.7 重点工作计划）"), "utf8");
+    const result = validateMeetingDirectory({ root, directory, mode: "formal" });
+    assert.ok(result.errors.some((error) => error.includes("章节标题不得附加具体日期区间")));
+  } finally {
+    removeTempRoot(root);
+  }
+});
+
 test("会议纪要 Word 固化 20260824830 群发版版式", () => {
   const root = createTempRoot();
   try {

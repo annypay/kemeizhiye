@@ -104,6 +104,17 @@ function validateCountdownLine(content, label, errors) {
   }
 }
 
+function validateHeadingNoDateRange(content, label, errors) {
+  const lines = content.split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!/^##\s+/.test(trimmed)) continue;
+    if (/（\s*\d{1,2}[.月]\d{1,2}\s*[—\-~至]\s*\d{1,2}[.月]\d{1,2}[^）]*）/.test(trimmed)) {
+      errors.push(`${label}的章节标题不得附加具体日期区间：${trimmed}`);
+    }
+  }
+}
+
 function formatChineseDate(isoDate) {
   const date = parseIsoDate(isoDate);
   if (!date) return null;
@@ -400,6 +411,7 @@ function validateMeetingDirectory({ root = ROOT, directory, mode }) {
       validateDisplayHeader(content, metadata, archiveWeek, path.basename(markdownPath), errors);
       validateSignoff(content, metadata, path.basename(markdownPath), effectiveMode, errors);
       validateCountdownLine(content, path.basename(markdownPath), errors);
+      validateHeadingNoDateRange(content, path.basename(markdownPath), errors);
       validateRequiredStructure(content, variant, metadata, errors);
       documents.set(variant.key, { content, variant });
     }
