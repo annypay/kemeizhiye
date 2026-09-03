@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>废旧设备销售处工作流程图</title>
+<style>
+  :root {
+    --ink: #18232f;
+    --muted: #5d6873;
+    --line: #cfd7dd;
+    --paper: #ffffff;
+    --ground: #edf1f2;
+    --blue: #0f5d7a;
+    --blue-soft: #dceef3;
+    --green: #32734a;
+    --green-soft: #e4f1e7;
+    --gold: #9a6717;
+    --gold-soft: #fff1d8;
+    --red: #9a3e36;
+    --red-soft: #f9e4e0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    line-height: 1.55;
+  }
+
+  .page {
+    width: min(1320px, calc(100% - 32px));
+    margin: 28px auto 48px;
+  }
+
+  .masthead {
+    border-top: 7px solid var(--blue);
+    background: var(--paper);
+    padding: 30px 34px 26px;
+  }
+
+  .eyebrow {
+    margin: 0 0 8px;
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  h1, h2, h3, p { margin-top: 0; }
+
+  h1 { margin-bottom: 8px; font-size: 28px; line-height: 1.3; }
+
+  .subtitle { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .notice {
+    display: grid;
+    grid-template-columns: 156px 1fr;
+    gap: 18px;
+    align-items: center;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--gold);
+    background: var(--gold-soft);
+    font-size: 14px;
+  }
+
+  .notice strong { color: #70480c; }
+
+  section {
+    margin-top: 22px;
+    background: var(--paper);
+    padding: 28px 30px;
+  }
+
+  .section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  h2 { margin-bottom: 0; font-size: 20px; }
+
+  .section-heading p { margin-bottom: 0; color: var(--muted); font-size: 13px; text-align: right; }
+
+  .flow-wrap { overflow-x: auto; padding-bottom: 8px; }
+
+  .flow-map {
+    min-width: 1200px;
+    display: grid;
+    grid-template-columns: 220px 30px 220px 30px 220px 30px 220px 30px 220px;
+    align-items: stretch;
+    padding: 6px 4px 20px;
+  }
+
+  .flow-node {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 15px;
+    border: 1px solid var(--blue);
+    background: var(--blue-soft);
+  }
+
+  .flow-node.gold { border-color: var(--gold); background: var(--gold-soft); }
+  .flow-node.green { border-color: var(--green); background: var(--green-soft); }
+
+  .step-tag {
+    display: inline-block;
+    margin-bottom: 9px;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    width: fit-content;
+  }
+
+  .flow-node.gold .step-tag { background: var(--gold); }
+  .flow-node.green .step-tag { background: var(--green); }
+
+  .flow-node h3 { margin-bottom: 6px; font-size: 16px; line-height: 1.3; }
+  .flow-node .who { margin-bottom: 6px; font-size: 13px; font-weight: 700; color: #164a5f; }
+  .flow-node.gold .who { color: #74510e; }
+  .flow-node.green .who { color: #275c3b; }
+  .flow-node p.detail { margin-bottom: 0; font-size: 12.5px; color: #426372; flex: 1; }
+  .flow-node.gold p.detail { color: #6d5b39; }
+  .flow-node.green p.detail { color: #3c5c48; }
+
+  .flow-arrow {
+    align-self: center;
+    height: 1px;
+    width: 100%;
+    background: var(--line);
+    position: relative;
+  }
+
+  .flow-arrow::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    transform: rotate(45deg);
+  }
+
+  .sub-note {
+    grid-column: 1 / -1;
+    margin-top: -4px;
+    padding: 10px 14px;
+    border: 1px dashed var(--line);
+    background: #f7f9fa;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .cross-cut {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--green);
+    background: var(--green-soft);
+    font-size: 14px;
+    color: #2f523d;
+  }
+
+  .cross-cut strong { color: #1f4a2f; }
+
+  .roster {
+    width: 100%;
+    margin-top: 4px;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  .roster th, .roster td {
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .roster th { background: #e6eef1; color: #24495b; }
+  .roster td:first-child { width: 9%; font-weight: 700; }
+  .roster td:nth-child(2) { width: 13%; }
+  .roster td:nth-child(3) { width: 13%; color: var(--blue); font-weight: 700; }
+  .roster td:last-child { color: var(--muted); }
+
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .gate-card {
+    padding: 14px;
+    border: 1px solid #e6c681;
+    border-top: 4px solid var(--gold);
+    background: var(--gold-soft);
+  }
+
+  .gate-card h3 { margin-bottom: 5px; font-size: 15px; color: #74510e; }
+  .gate-card p { margin-bottom: 0; font-size: 13px; color: #6d5b39; }
+
+  .source-note {
+    margin: 22px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .gate-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .page { width: min(100% - 20px, 1320px); margin-top: 10px; }
+    .masthead, section { padding: 22px 18px; }
+    h1 { font-size: 22px; }
+    .notice { grid-template-columns: 1fr; gap: 5px; }
+    .section-heading { display: block; }
+    .section-heading p { margin-top: 5px; text-align: left; }
+    .gate-grid { grid-template-columns: 1fr; }
+    .roster { min-width: 640px; }
+  }
+
+  @media print {
+    body { background: #ffffff; }
+    .page { width: 100%; margin: 0; }
+    section, .masthead { break-inside: avoid; }
+    .flow-wrap { overflow: visible; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">江西柯美纸业有限公司 | 废旧设备销售处工作依据</p>
+    <h1>废旧设备销售处工作流程图（五步法）</h1>
+    <p class="subtitle">每个人只看自己那一格：什么时候轮到我、我要做什么、做完交给谁。</p>
+    <div class="notice">
+      <strong>使用说明</strong>
+      <span>本图依据《江西柯美纸业有限公司废旧设备销售处组建方案（简化版）》第三部分编制，人员、职责和顺序与该方案一致；金额审批权限仍按采购部现行流程执行，本图不新设审批标准。</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-heading">
+      <h2>一、五步流程总览</h2>
+      <p>一环扣一环：上一步没完成，不进入下一步。</p>
+    </div>
+
+    <div class="flow-wrap">
+      <div class="flow-map">
+        <article class="flow-node">
+          <span class="step-tag">第 1 步</span>
+          <h3>联系买家形成初步意向</h3>
+          <div class="who">刘桥、陈礼斌</div>
+          <p class="detail">对接潜在买家，洽谈并形成初步购买意向（含意向价格），提报给乐志伟。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="flow-node gold">
+          <span class="step-tag">第 2 步</span>
+          <h3>乐总初审</h3>
+          <div class="who">乐志伟</div>
+          <p class="detail">审核意向是否具备继续推进的基础；通过后提交采购部，不通过退回销售人员补充信息。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="flow-node gold">
+          <span class="step-tag">第 3 步</span>
+          <h3>采购复审裁决，确定合同</h3>
+          <div class="who">采购部</div>
+          <p class="detail">按《废旧物资处置管理办法》（2024 年 32 号）复审裁决，确认可行性及价格合理性，确定合同。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="flow-node">
+          <span class="step-tag">第 4 步</span>
+          <h3>财务到款后监督放行</h3>
+          <div class="who">李群 → 龚科潜（李运兰执行过磅）</div>
+          <p class="detail">李群确认到款后通知龚科潜；龚科潜监督磅房过磅事宜，确认无误后对设备予以放行。</p>
+        </article>
+        <div class="flow-arrow"></div>
+        <article class="flow-node green">
+          <span class="step-tag">第 5 步</span>
+          <h3>数据统计与对账</h3>
+          <div class="who">林娜</div>
+          <p class="detail">统计本次交易数据，与财务、采购部门核对，确保台账、账务、采购记录一致。</p>
+        </article>
+        <div class="sub-note">红线：第 4 步必须"先款后货"——李群未确认到款前，龚科潜不得放行设备；第 2、3 步任一环节未通过，不得进入下一步。</div>
+      </div>
+    </div>
+
+    <div class="cross-cut">
+      <strong>林娜的角色不止第 5 步：</strong>从第 1 步买家信息产生开始，林娜就同步做数据登记，交易完成后统一与财务、采购部核对，确保每一笔都能对得上账。
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>二、人员职责速查表</h2>
+      <p>按姓名查自己在流程中的位置。</p>
+    </div>
+
+    <table class="roster">
+      <thead>
+        <tr>
+          <th>步骤</th>
+          <th>姓名</th>
+          <th>分工</th>
+          <th>具体要做的事</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>牵头统筹</td><td>乐志伟</td><td>销售部总监</td><td>统筹销售处全部工作，负责第 2 步初审，向总经理定期报告</td></tr>
+        <tr><td>第 1 步</td><td>刘桥</td><td>销售</td><td>联系买家，洽谈并形成初步意向</td></tr>
+        <tr><td>第 1 步</td><td>陈礼斌</td><td>销售</td><td>联系买家，洽谈并形成初步意向</td></tr>
+        <tr><td>第 4 步</td><td>龚科潜</td><td>设备</td><td>现场设备状态确认、配合现场保护；监督磅房过磅事宜，确认后对设备放行</td></tr>
+        <tr><td>第 4 步</td><td>李运兰</td><td>过磅</td><td>执行成交设备的实际过磅计量</td></tr>
+        <tr><td>第 4 步</td><td>李群</td><td>财务</td><td>确认货款到账后通知龚科潜；负责开票及账务处理</td></tr>
+        <tr><td>第 5 步</td><td>林娜</td><td>内勤/数据统计</td><td>全流程数据统计和台账维护，与财务、采购部沟通对齐</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>三、三条不可跳过的红线</h2>
+      <p>效率不能替代资金安全和审批合规。</p>
+    </div>
+
+    <div class="gate-grid">
+      <article class="gate-card">
+        <h3>1. 审批不可越级</h3>
+        <p>意向必须先经乐志伟初审，再报采购部复审裁决；销售处不能自行拍板成交。</p>
+      </article>
+      <article class="gate-card">
+        <h3>2. 先款后货</h3>
+        <p>李群未确认到款，龚科潜不得通知过磅或放行设备，杜绝先放货后收款。</p>
+      </article>
+      <article class="gate-card">
+        <h3>3. 数据必须对得上</h3>
+        <p>林娜统计的数据要与财务、采购部记录一致；发现不一致立即反馈乐志伟处理。</p>
+      </article>
+    </div>
+
+    <p class="source-note">编制依据：2026 年 9 月 3 日《江西柯美纸业有限公司废旧设备销售处组建方案（简化版）》第三部分“废旧设备销售工作流程（拟）”及销售部总监乐志伟同日提出的流程细化建议。本图不新增岗位、金额阈值或审批规则。</p>
+  </section>
+</main>
+</body>
+</html>
