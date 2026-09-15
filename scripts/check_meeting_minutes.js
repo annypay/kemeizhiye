@@ -290,6 +290,60 @@ function expectedFileName(archiveWeek, variant, extension, temporary) {
   return `${archiveWeek}-董事长例会纪要-${variant.suffix}${status}.${extension}`;
 }
 
+/**
+ * 历史会议包判定：目录名不是规范的 YYYYMMDD-YYYYMMDD 即为历史包。
+ * 例如 20260824830、20260819。按会议纪要 README 第六节，历史目录不重命名。
+ */
+function isLegacyArchiveWeek(archiveWeek) {
+  return !/^\d{8}-\d{8}$/.test(archiveWeek);
+}
+
+/**
+ * 历史会议包豁免校验：只核对文件齐备性、目录中无 Office 锁文件，
+ * 不套用 2026-08-26 之后才建立的元数据、副标题、章节结构与签发规范。
+ */
+function validateLegacyMeetingDirectory({ directory, archiveWeek, mode }) {
+  const errors = [];
+  const warnings = [];
+  const legacyScope = mode === "temporary" ? "临时区" : "正式区";
+  warnings.push(
+    `历史会议包（目录名 ${archiveWeek}）按第六节“历史资料兼容”豁免现代化校验：` +
+      `不套用 MEETING-MINUTES-META 元数据、副标题、章节结构与签发日期规范，` +
+      `仅核对三版文件齐备、Word 配对和 Office 锁文件；严格模式：--mode=${mode}（${legacyScope}未生效）`
+  );
+
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    if (entry.name.startsWith("~$")) errors.push(`存在 Office 锁文件：${entry.name}`);
+  }
+
+  for (const variant of VARIANTS) {
+    // 历史包的文件前缀可能与目录名不一致（如目录 20260824830、文件前缀 2026824830），按后缀定位
+    const markdownMatches = fs
+      .readdirSync(directory)
+      .filter((name) => name.endsWith(`-董事长例会纪要-${variant.suffix}.md`));
+    if (markdownMatches.length === 0) {
+      errors.push(`历史会议包缺少 *-董事长例会纪要-${variant.suffix}.md`);
+      continue;
+    }
+    if (markdownMatches.length > 1) {
+      errors.push(`历史会议包含有多个 *-董事长例会纪要-${variant.suffix}.md：${markdownMatches.join("、")}`);
+      continue;
+    }
+    const markdownName = markdownMatches[0];
+    const prefix = markdownName.slice(0, -`-董事长例会纪要-${variant.suffix}.md`.length);
+    const docxName = `${prefix}-董事长例会纪要-${variant.suffix}.docx`;
+    const docxPath = path.join(directory, docxName);
+    if (!fs.existsSync(docxPath)) {
+      errors.push(`历史会议包缺少与 ${markdownName} 配套的 Word 文件：${docxName}`);
+      continue;
+    }
+    const signature = fs.readFileSync(docxPath).subarray(0, 4).toString("binary");
+    if (signature !== "PK\u0003\u0004") errors.push(`${docxName} 不是有效的 DOCX 压缩包`);
+  }
+
+  return { errors: [...new Set(errors)], warnings: [...new Set(warnings)] };
+}
+
 function validateMetadata(metadata, archiveWeek, root, label, mode, errors, warnings) {
   if (!metadata) {
     errors.push(`${label}缺少 MEETING-MINUTES-META 元数据`);
@@ -364,13 +418,12 @@ function validateMeetingDirectory({ root = ROOT, directory, mode }) {
   const resolvedDirectory = path.resolve(directory);
   const archiveWeek = path.basename(resolvedDirectory);
   const effectiveMode = getMode(resolvedDirectory, mode);
-  if (!/^(\d{8})-(\d{8})$/.test(archiveWeek)) {
-    errors.push(`目录名必须为 YYYYMMDD-YYYYMMDD：${archiveWeek}`);
-    return { errors, warnings };
-  }
   if (!fs.existsSync(resolvedDirectory) || !fs.statSync(resolvedDirectory).isDirectory()) {
     errors.push(`会议目录不存在：${resolvedDirectory}`);
     return { errors, warnings };
+  }
+  if (isLegacyArchiveWeek(archiveWeek)) {
+    return validateLegacyMeetingDirectory({ directory: resolvedDirectory, archiveWeek, mode: effectiveMode });
   }
 
   const entries = fs.readdirSync(resolvedDirectory, { withFileTypes: true });

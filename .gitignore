@@ -19,6 +19,11 @@ Thumbs.db
 .DS_Store
 desktop.ini
 
+# ── CAD 临时/锁文件（AutoCAD 自动生成，勿入库） ──
+*.dwl
+*.dwl2
+*.bak.dwg
+
 # ── 冗余 zip（已有展开目录）
 土建相关合同/合同.zip
 

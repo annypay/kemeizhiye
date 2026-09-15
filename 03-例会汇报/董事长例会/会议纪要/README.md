@@ -36,13 +36,15 @@ report_cutoff: pending
 summary_source: pending
 roster_source: pending
 audio_source: pending
-transcript_source: 00-临时存放/会议纪要/20260831-20260906/20260831-20260906-董事长例会-转录草稿【待编辑】.md
+transcript_source: _archive/会议纪要/20260831-20260906/20260831-20260906-董事长例会-转录草稿.md
 draft_created_at: 2026-08-31
 signed_at: pending
 -->
 ```
 
 同一会议包的三版纪要和待确认事项清单必须使用完全相同的前十项元数据。`signed_at` 独立于 `meeting_date`：临时草稿可为 `pending`，正式纪要必须为已确认的实际签发日期，并与三版 Markdown、Word 文末落款一致。`JK-HY-YYYYMMDD` 中的日期必须等于 `meeting_date`。
+
+> **`transcript_source` 指向归档路径**：转录草稿在三版正式纪要生成后即移入 `_archive/会议纪要/<归档周期>/`（见 2.3 节），因此正式纪要的 `transcript_source` 应指向归档路径而非临时区路径。校验器要求该字段指向仓库内**实际存在**的文件，草稿移档时必须同步更新三版元数据，否则正式包校验失败。
 
 ## 二、临时会议包与正式入库
 
@@ -187,3 +189,4 @@ signed_at: pending
 - 历史周目录和文件名，如 `20260824830`、`2026824830`、`20260819`，保持不动，避免破坏既有链接和 Git 历史。
 - 历史 [20260824830](20260824830/) 的三版是当前表格和排版的参照；历史资料不参与新校验器的强制迁移。
 - 新建会议包一律遵循本规范。若需为历史会议补充材料，使用实际历史路径作为来源，并在元数据中标记其规范归档周期，不批量重命名原件。
+- **校验器自动豁免历史包**：目录名不是规范的 `YYYYMMDD-YYYYMMDD` 时，`check_meeting_minutes.js` 判定为历史包，只核对三版 md/docx 齐备、Word 配对和 Office 锁文件，**不套用**本规范 2026-08-26 之后建立的元数据、副标题、章节结构与签发日期校验，并输出 WARNING 说明豁免范围。历史包的 `--mode=formal` 不生效；不再因目录名硬失败。新建包不享受此豁免。

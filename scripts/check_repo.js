@@ -21,6 +21,23 @@ function run(cmd) {
   catch (e) { return ''; }
 }
 
+// 磁盘遍历时按 .gitignore 过滤：被忽略的残留（CAD 锁文件、冗余 zip、原始 bak）
+// 属历史源文件留存，不算待处理违规。git 追踪文件仍照常判定，不受此影响。
+const ignoreCache = new Map();
+function isIgnored(relPath) {
+  const key = relPath.replace(/\\/g, '/');
+  if (ignoreCache.has(key)) return ignoreCache.get(key);
+  let ignored = false;
+  try {
+    execFileSync('git', ['check-ignore', '-q', '--', key], { cwd: ROOT, stdio: 'ignore' });
+    ignored = true;
+  } catch (e) {
+    ignored = false; // 退出码 1 = 未被忽略；其他错误同样按未忽略处理，宁可多报
+  }
+  ignoreCache.set(key, ignored);
+  return ignored;
+}
+
 const fileCommand = stagedOnly
   ? 'git -c core.quotePath=false diff --cached --name-only --diff-filter=ACMR'
   : 'git -c core.quotePath=false ls-files';
@@ -44,8 +61,9 @@ function fileSize(file) {
 
 for (const f of files) {
   const base = path.basename(f);
-  // 下载重复后缀
-  if (/[(（]\d+[)）]/.test(base)) issues.push(`[重复下载后缀] ${f}`);
+  // 下载重复后缀：半角 (1)(2)(3)，或全角（1）～（999）的下载计数。
+  // 全角括号内 4 位以上数字是图纸/文档自身的日期标注（如 （20260507）），不是下载计数，不判违规。
+  if (/[(]\d+[)]/.test(base) || /（\d{1,3}）/.test(base)) issues.push(`[重复下载后缀] ${f}`);
   // bak 备份
   if (/bak/i.test(base)) issues.push(`[bak 备份] ${f}`);
   // Office 临时
@@ -68,6 +86,7 @@ if (!stagedOnly) {
         walk(p, r);
         if (fs.existsSync(path.join(p, en.name))) issues.push(`[同名嵌套目录] ${r}/${en.name}/`);
       } else {
+        if (isIgnored(r)) continue;
         if (en.name.startsWith('~$')) issues.push(`[Office 临时(磁盘)] ${r}`);
         if (/\.bak$/i.test(en.name)) issues.push(`[bak(磁盘)] ${r}`);
         if (en.name.endsWith('.zip')) issues.push(`[冗余zip(磁盘)] ${r}`);
@@ -103,8 +122,15 @@ if (stagedOnly) {
 }
 
 // 4. 日期格式不一致目录（仅检查正式区 0X- 目录，_archive 允许描述性命名）
-const dirs = run('git -c core.quotePath=false ls-files').trim().split('\n').filter(f => f.includes('/') && !f.startsWith('_archive/')).map(f => f.split('/')[1]).filter(Boolean);
-const uniq = [...new Set(dirs)];
+//    取路径“二级段”并排除其后无更多层级的项，避免把 01-进度计划/xxx.md 这类文件误判成目录。
+const relativeFiles = run('git -c core.quotePath=false ls-files').trim().split('\n').filter(Boolean);
+const secondLevelDirs = relativeFiles
+  .filter(f => !f.startsWith('_archive/'))
+  .map(f => f.split('/'))
+  .filter(parts => parts.length > 2)
+  .map(parts => parts[1])
+  .filter(Boolean);
+const uniq = [...new Set(secondLevelDirs)];
 const badDateDirs = uniq.filter(d => /^\d/.test(d) && !/^\d{4}(\.\d{2}|\d{4}|-\d{2}-\d{2})/.test(d));
 for (const d of badDateDirs) issues.push(`[日期目录格式] 一级子目录 "${d}" 建议统一为 YYYY-MM 或 YYYYMMDD`);
 
