@@ -201,6 +201,8 @@ node scripts/gen_index.js            # 根据已暂存文件重新生成 INDEX.m
 | 会议录音 | `03-例会汇报/董事长例会/会议录音/YYYY-MM-DD/`，注意体积（见 TODO） |
 | 新增参考资料 | 复制入 `参考资料/` 按主题建子目录（静态只读，不参与周例会流程）；删除冗余 zip |
 | 废旧物资处置 | 现行销售处组建与流程材料归 `06-人事行政/工作推进单/废旧物资处置/`；2024 年 32 号制度原件及转录版归 `参考资料/公司制度/废旧物资处置/`；被替代草案归 `_archive/废旧物资处置方案演进/` |
+| 现场照片标注 | 手机照片导出、重命名整理完成后执行 `powershell -NoProfile -File scripts/annotate_photos.ps1 -SourceDir "<照片目录>"`，输出到 `<照片目录>/注释/`（左上角红字文件名 + 白描边）；再用 `scripts/verify_photo_annotations.ps1` 校验。原图只读，照片目录在仓库外、不入库。流程见[技能](.github/skills/photo-annotate/SKILL.md) |
+| 现场图集 PDF | `node scripts/generate_photo_album_pdf.js --src "<照片目录>" --out "<输出.pdf>" --title "<图集名称>" --date YYYYMMDD`，生成 A4 图集（封面 + 每页一图 + 照片索引表），图注为原文件名；零第三方依赖、只读源目录顶层图片，与上一条标注流程互不依赖 |
 
 ### 8.4 Git 推送与网络代理（网络维护）
 
@@ -284,7 +286,7 @@ Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -eq 10808 }
 | 定制 | 位置 | 用途 |
 | --- | --- | --- |
 | 常驻规则 | `AGENTS.md`（根目录） | 每次会话自动注入：目录分箱、命名规范、铁律、提交约定 |
-| 技能 | `.github/skills/` | `/doc-intake` 文档入库、`/repo-publish` 检查发布、`/weekly-meeting` 周例会归集、`/meeting-minutes` 纪要草案、`/work-tracker` 事项闭环、`/jk-notice` 督察通报 |
+| 技能 | `.github/skills/` | `/doc-intake` 文档入库、`/repo-publish` 检查发布、`/weekly-meeting` 周例会归集、`/meeting-minutes` 纪要草案、`/work-tracker` 事项闭环、`/jk-notice` 督察通报、`/photo-annotate` 现场照片文件名标注 |
 | 提示 | `.github/prompts/` | `/report-gap` 本周缺报速查、`/who` 人员岗位速查、`/work-status` 在办事项状态速查 |
 | 范围指令 | `.github/instructions/` | 工作事项台账的证据关闭门槛、会议纪要的三版同源与事项移交约束 |
 | 会话记录 | `_会话记录/` | Copilot 历史对话与记忆，随仓库迁移（见 8.7） |
@@ -321,6 +323,7 @@ node scripts/sync_chat.js --import     # 换电脑：仓库 → VS Code
 - [ ] `05-政府沟通/` 沟通协调表补充实际数据
 - [ ] 安保日报归档机制：`08-安保与应急/保安管理/日报存档/`
 - [ ] 3960 纸机暂停的正式决策文件
+- [ ] `scripts/vc-cover.js` 与 `vc-cover2.js` 疑为同一封面实验的两版，待确认后合并或移入 `_archive/`
 
 ---
 
@@ -328,6 +331,8 @@ node scripts/sync_chat.js --import     # 换电脑：仓库 → VS Code
 
 | 日期 | 变更 |
 | --- | --- |
+| 2026-09-15 | 固化现场照片文件名标注流程：新增 `scripts/annotate_photos.ps1`（左上角红字文件名 + 白描边，字号按文件名长度自动适配 69~72px，按 EXIF 5/6/7/8 自动摆正并移除方向标记，HEIC 显式列名报错）与 `scripts/verify_photo_annotations.ps1` 校验器，以及 `/photo-annotate` 技能（8.3、8.6 节）；两个 `.ps1` 必须保存为 UTF-8 带 BOM。首批 70 张 20260915 现场照片产出 `注释/`，流程重跑与已交付文件逐字节一致。 |
+| 2026-09-15 | 现场图集 PDF 工具链纳入版本管理：`scripts/` 下 `generate_photo_album_pdf.js/.ps1`、`verify_album_content.js`、`verify_album_fonts.js`、`verify_album_render.ps1`、`verify_photo_album_pdf.js`、`vc-cover.js`、`vc-cover2.js` 共 8 个脚本此前一直未提交，本次一并入库；图集生成器已冒烟验证通过（零第三方依赖，只读源目录顶层图片，图注为原文件名）。 |
 | 2026-09-15 | 文档深度治理：重建 `INDEX.md`（原索引停留 2026-09-03、缺 33 个文件）；`check_repo.js` 磁盘遍历改为遵循 `.gitignore` 并修复把文件名误判为日期目录的问题；`check_meeting_minutes.js` 增加历史会议包豁免（`20260824830` 不再硬失败）；转录草稿归档 `_archive/会议纪要/`、被替代稿归 `_archive/临时区替代稿/`、CAD 总图归 `00-临时存放/图纸/`、清理 Office 锁文件；8.11 总经办汇报归入 `各专业汇报内容/20260812/`；新增 `01-进度计划/`、`03-例会汇报/`、`04-进度督察/`、`周例会名单/` 四个 README。 |
 | 2026-09-14 | 下班归档：9 月 7—13 日周例会汇报、9 月 9 日重点跟进清单、9 月 14 日会议备忘、月度计划审查件与厂区总图入库存档（`e4585d0`）。 |
 | 2026-09-10 | 新增总经办工作与文档治理架构图领导阅览草案（`a324a0d`）→ 该草案**仍在临时区**（`00-临时存放/20260910-总经办-工作与文档治理架构图【待确认】.html`），未入库。 |

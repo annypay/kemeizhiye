@@ -1,7 +1,7 @@
 # 总经办文档 · 全文索引
 
-> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-09-15 03:32
-> 共 593 个文件。目录分类导航见 `README.md`，本索引按目录逐一列出文件。
+> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-09-15 12:00
+> 共 604 个文件。目录分类导航见 `README.md`，本索引按目录逐一列出文件。
 
 ## 目录速览
 
@@ -16,6 +16,7 @@
 - [.github/skills/doc-intake](#githubskillsdoc-intake)（1 个文件）
 - [.github/skills/jk-notice](#githubskillsjk-notice)（1 个文件）
 - [.github/skills/meeting-minutes](#githubskillsmeeting-minutes)（1 个文件）
+- [.github/skills/photo-annotate](#githubskillsphoto-annotate)（1 个文件）
 - [.github/skills/repo-publish](#githubskillsrepo-publish)（1 个文件）
 - [.github/skills/weekly-meeting](#githubskillsweekly-meeting)（1 个文件）
 - [.github/skills/work-tracker](#githubskillswork-tracker)（1 个文件）
@@ -95,7 +96,7 @@
 - [参考资料/岗位说明书5.10/制浆、原料厂岗位说明书/原料厂岗位说明书](#参考资料岗位说明书510制浆、原料厂岗位说明书原料厂岗位说明书)（6 个文件）
 - [参考资料/公司制度](#参考资料公司制度)（1 个文件）
 - [参考资料/公司制度/废旧物资处置](#参考资料公司制度废旧物资处置)（4 个文件）
-- [scripts](#scripts)（9 个文件）
+- [scripts](#scripts)（19 个文件）
 
 ## _archive
 
@@ -182,6 +183,12 @@
 | --- | --- | --- |
 | `SKILL.md` | 5.9 KB | 2026-09-02 |
 
+## .github/skills/photo-annotate
+
+| 文件 | 大小 | 修改日期 |
+| --- | --- | --- |
+| `SKILL.md` | 3.4 KB | 2026-09-15 |
+
 ## .github/skills/repo-publish
 
 | 文件 | 大小 | 修改日期 |
@@ -208,9 +215,9 @@
 | `.gitignore` | 691 B | 2026-09-15 |
 | `.markdownlint-cli2.jsonc` | 183 B | 2026-08-27 |
 | `.markdownlint.json` | 132 B | 2026-08-27 |
-| `AGENTS.md` | 4.6 KB | 2026-09-15 |
-| `INDEX.md` | 61.0 KB | 2026-09-15 |
-| `README.md` | 26.9 KB | 2026-09-15 |
+| `AGENTS.md` | 5.4 KB | 2026-09-15 |
+| `INDEX.md` | 61.9 KB | 2026-09-15 |
+| `README.md` | 28.7 KB | 2026-09-15 |
 
 ## 00-临时存放
 
@@ -1135,15 +1142,25 @@
 
 | 文件 | 大小 | 修改日期 |
 | --- | --- | --- |
+| `annotate_photos.ps1` | 12.6 KB | 2026-09-15 |
 | `check_meeting_minutes.js` | 24.7 KB | 2026-09-15 |
 | `check_repo.js` | 5.9 KB | 2026-09-15 |
 | `check_work_ledger.js` | 5.3 KB | 2026-08-27 |
 | `create_meeting_package.js` | 6.1 KB | 2026-09-02 |
 | `gen_index.js` | 2.8 KB | 2026-08-27 |
 | `generate_docx_from_md.js` | 12.9 KB | 2026-09-02 |
+| `generate_photo_album_pdf.js` | 40.9 KB | 2026-09-15 |
+| `generate_photo_album_pdf.ps1` | 14.3 KB | 2026-09-15 |
 | `package.json` | 182 B | 2026-09-02 |
 | `sync_chat.js` | 6.1 KB | 2026-08-27 |
 | `test_meeting_minutes.js` | 13.5 KB | 2026-09-02 |
+| `vc-cover.js` | 7.0 KB | 2026-09-15 |
+| `vc-cover2.js` | 7.0 KB | 2026-09-15 |
+| `verify_album_content.js` | 6.8 KB | 2026-09-15 |
+| `verify_album_fonts.js` | 14.8 KB | 2026-09-15 |
+| `verify_album_render.ps1` | 4.7 KB | 2026-09-15 |
+| `verify_photo_album_pdf.js` | 10.6 KB | 2026-09-15 |
+| `verify_photo_annotations.ps1` | 7.8 KB | 2026-09-15 |
 
 ---
 

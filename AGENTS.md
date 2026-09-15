@@ -50,6 +50,17 @@
 4. 中文 commit，前缀 `docs:`（文档）/ `feat:`（新目录/体系）/ `chore:`（脚本维护）；
 5. `git push origin master` — v2rayN SOCKS5 10808 代理已全局配置，失败按 README 8.4 排查。
 
+## 专项流程（技能入口）
+
+技能统一放在 `.github/skills/`（清单见 README 8.6）。**现场照片文件名标注**：手机照片导出、重命名整理完成后执行——
+
+```powershell
+powershell -NoProfile -File scripts/annotate_photos.ps1 -SourceDir "<照片目录>"
+powershell -NoProfile -File scripts/verify_photo_annotations.ps1 -SourceDir "<照片目录>"
+```
+
+标注内容＝不含扩展名的文件名，输出到 `<照片目录>/注释/`。**原图只读**，不改名、不改写、不移动；照片目录在仓库之外，本流程不向文档库写入文件，故无需走变更收口。两个 `.ps1` 必须保存为 UTF-8 **带 BOM**（本机 ANSI 代码页 936，无 BOM 会让脚本内中文乱码）。详见技能 `/photo-annotate`。
+
 ## 人员与专业
 
 周例会报缺、责任人确认，一律以 README 第三节「人员与专业映射」为唯一权威源。
