@@ -25,10 +25,11 @@
 | **09** | [`09-外部调研/`](09-外部调研/单位情况/) | 外部企业信息调研 | `公司信息汇总v3.xlsx` 为权威汇总 |
 | **参考资料** | [`参考资料/`](参考资料/README.md) | 静态参考资料区（组织架构、岗位说明书等） | `岗位说明书5.10/` 原始资料及 [组织架构总览](参考资料/岗位说明书5.10/20260827/组织架构总览.html) |
 | **参考资料** | [`参考资料/公司制度/`](参考资料/公司制度/) | 现行公司制度原件及可检索版本 | [废旧物资处置管理制度](参考资料/公司制度/废旧物资处置/)保留 2024 年 32 号原件及转录版 |
+| — | [`scripts/`](scripts/README.md) | 文档库运维脚本：索引生成、卫生检查、会议纪要工具链、Markdown 转 Word、现场照片标注、图集 PDF | 每个脚本的用途、用法与依赖见目录 README |
 | — | [`_会话记录/`](_会话记录/README.md) | Copilot 会话历史与记忆快照 | 由 `scripts/sync_chat.js` 同步，不手改、不入全文索引 |
 | — | [`_archive/`](_archive/) | 历史归档：旧版本、过月文件、副本存档 | 不参与日常检索，保留 Git 历史 |
 
-**根目录只允许存在**：`README.md`、`INDEX.md`、`AGENTS.md`、`.gitignore`、`.gitattributes`、`.markdownlint.json`、`.markdownlint-cli2.jsonc`、`.github/`（Agent 定制）和上述目录。任何新文件先进 `00-临时存放/`，定稿后入库。
+**根目录只允许存在**：`README.md`、`INDEX.md`、`AGENTS.md`、`.gitignore`、`.gitattributes`、`.markdownlint.json`、`.markdownlint-cli2.jsonc`、`.github/`（Agent 定制）、`scripts/`（运维脚本）和上述目录。任何新文件先进 `00-临时存放/`，定稿后入库。
 
 ---
 
@@ -162,6 +163,8 @@
 ---
 
 ## 八、维护指南（Agent 操作手册）
+
+> 本节涉及的全部运维脚本统一登记在 [`scripts/README.md`](scripts/README.md)：用途、用法、依赖，以及同一用途的「权威／备选」关系。
 
 ### 8.1 日常入库（你确认后执行）
 
@@ -323,7 +326,6 @@ node scripts/sync_chat.js --import     # 换电脑：仓库 → VS Code
 - [ ] `05-政府沟通/` 沟通协调表补充实际数据
 - [ ] 安保日报归档机制：`08-安保与应急/保安管理/日报存档/`
 - [ ] 3960 纸机暂停的正式决策文件
-- [ ] `scripts/vc-cover.js` 与 `vc-cover2.js` 疑为同一封面实验的两版，待确认后合并或移入 `_archive/`
 
 ---
 
@@ -331,6 +333,7 @@ node scripts/sync_chat.js --import     # 换电脑：仓库 → VS Code
 
 | 日期 | 变更 |
 | --- | --- |
+| 2026-09-15 | 脚本目录综合治理：新增 [`scripts/README.md`](scripts/README.md)（此前该目录无任何说明），登记全部脚本的用途、用法、依赖与「权威/备选」关系；根 README 第一节补 `scripts/` 行、修正根目录白名单漏列 `scripts/`；删除 `vc-cover.js` / `vc-cover2.js`——逐字节比对确认二者只是 `verify_album_content.js` 加了一行调试输出（其自身用法提示也指向 `verify_album_content.js`，且无任何脚本引用），如需取回见 `91833bf`；自带测试 `npm test --prefix scripts` 6 项通过。 |
 | 2026-09-15 | 固化现场照片文件名标注流程：新增 `scripts/annotate_photos.ps1`（左上角红字文件名 + 白描边，字号按文件名长度自动适配 69~72px，按 EXIF 5/6/7/8 自动摆正并移除方向标记，HEIC 显式列名报错）与 `scripts/verify_photo_annotations.ps1` 校验器，以及 `/photo-annotate` 技能（8.3、8.6 节）；两个 `.ps1` 必须保存为 UTF-8 带 BOM。首批 70 张 20260915 现场照片产出 `注释/`，流程重跑与已交付文件逐字节一致。 |
 | 2026-09-15 | 现场图集 PDF 工具链纳入版本管理：`scripts/` 下 `generate_photo_album_pdf.js/.ps1`、`verify_album_content.js`、`verify_album_fonts.js`、`verify_album_render.ps1`、`verify_photo_album_pdf.js`、`vc-cover.js`、`vc-cover2.js` 共 8 个脚本此前一直未提交，本次一并入库；图集生成器已冒烟验证通过（零第三方依赖，只读源目录顶层图片，图注为原文件名）。 |
 | 2026-09-15 | 文档深度治理：重建 `INDEX.md`（原索引停留 2026-09-03、缺 33 个文件）；`check_repo.js` 磁盘遍历改为遵循 `.gitignore` 并修复把文件名误判为日期目录的问题；`check_meeting_minutes.js` 增加历史会议包豁免（`20260824830` 不再硬失败）；转录草稿归档 `_archive/会议纪要/`、被替代稿归 `_archive/临时区替代稿/`、CAD 总图归 `00-临时存放/图纸/`、清理 Office 锁文件；8.11 总经办汇报归入 `各专业汇报内容/20260812/`；新增 `01-进度计划/`、`03-例会汇报/`、`04-进度督察/`、`周例会名单/` 四个 README。 |
