@@ -333,6 +333,7 @@ node scripts/sync_chat.js --import     # 换电脑：仓库 → VS Code
 
 | 日期 | 变更 |
 | --- | --- |
+| 2026-09-16 | 标注校验器防误报修正：`verify_photo_annotations.ps1` 改用「最长连续密集行」定位红字文字块。20260916 批次 `南侧护坡4.jpg` 有 88 个天然红土像素落在 y=250..299，旧版会算进包围盒而误报「下探过深」。修正后 20260916 批 99 张通过、20260915 批 70 张回归通过；未标注原图仍失败，对抗测试（把标注画到 y=200）仍能正确失败。 |
 | 2026-09-15 | 脚本目录综合治理：新增 [`scripts/README.md`](scripts/README.md)（此前该目录无任何说明），登记全部脚本的用途、用法、依赖与「权威/备选」关系；根 README 第一节补 `scripts/` 行、修正根目录白名单漏列 `scripts/`；删除 `vc-cover.js` / `vc-cover2.js`——逐字节比对确认二者只是 `verify_album_content.js` 加了一行调试输出（其自身用法提示也指向 `verify_album_content.js`，且无任何脚本引用），如需取回见 `91833bf`；自带测试 `npm test --prefix scripts` 6 项通过。 |
 | 2026-09-15 | 固化现场照片文件名标注流程：新增 `scripts/annotate_photos.ps1`（左上角红字文件名 + 白描边，字号按文件名长度自动适配 69~72px，按 EXIF 5/6/7/8 自动摆正并移除方向标记，HEIC 显式列名报错）与 `scripts/verify_photo_annotations.ps1` 校验器，以及 `/photo-annotate` 技能（8.3、8.6 节）；两个 `.ps1` 必须保存为 UTF-8 带 BOM。首批 70 张 20260915 现场照片产出 `注释/`，流程重跑与已交付文件逐字节一致。 |
 | 2026-09-15 | 现场图集 PDF 工具链纳入版本管理：`scripts/` 下 `generate_photo_album_pdf.js/.ps1`、`verify_album_content.js`、`verify_album_fonts.js`、`verify_album_render.ps1`、`verify_photo_album_pdf.js`、`vc-cover.js`、`vc-cover2.js` 共 8 个脚本此前一直未提交，本次一并入库；图集生成器已冒烟验证通过（零第三方依赖，只读源目录顶层图片，图注为原文件名）。 |

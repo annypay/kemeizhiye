@@ -1,6 +1,6 @@
 # 总经办文档 · 全文索引
 
-> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-09-15 12:05
+> 自动生成：`node scripts/gen_index.js` ｜ 生成时间：2026-09-16 10:21
 > 共 603 个文件。目录分类导航见 `README.md`，本索引按目录逐一列出文件。
 
 ## 目录速览
@@ -216,8 +216,8 @@
 | `.markdownlint-cli2.jsonc` | 183 B | 2026-08-27 |
 | `.markdownlint.json` | 132 B | 2026-08-27 |
 | `AGENTS.md` | 5.6 KB | 2026-09-15 |
-| `INDEX.md` | 62.6 KB | 2026-09-15 |
-| `README.md` | 29.6 KB | 2026-09-15 |
+| `INDEX.md` | 62.6 KB | 2026-09-16 |
+| `README.md` | 30.1 KB | 2026-09-16 |
 
 ## 00-临时存放
 
@@ -1159,7 +1159,7 @@
 | `verify_album_fonts.js` | 14.8 KB | 2026-09-15 |
 | `verify_album_render.ps1` | 4.7 KB | 2026-09-15 |
 | `verify_photo_album_pdf.js` | 10.6 KB | 2026-09-15 |
-| `verify_photo_annotations.ps1` | 7.8 KB | 2026-09-15 |
+| `verify_photo_annotations.ps1` | 10.2 KB | 2026-09-16 |
 
 ---
 

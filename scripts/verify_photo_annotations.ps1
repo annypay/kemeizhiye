@@ -4,7 +4,8 @@
 #   · 源图存在、输出无缺失/无多余/无 0 字节；
 #   · 输出尺寸符合预期（源图带 EXIF 5/6/7/8 旋转标记时，长宽应已互换）；
 #   · 左上区域存在足够红色像素（说明标注确实画上去了）；
-#   · 红色像素包围盒落在左上，未贴边、未越界。
+#   · 文字块包围盒落在左上，未贴边、未越界。包围盒按「密集行」计算（每行红像素
+#     数需达到 max(8, 图宽/100)），因此照片里天然的红土/砖块/红旗不会污染位置判定。
 # 任一张不过 → 退出码 1，并输出明细 CSV。刻意做成"能失败"的校验，不是恒真检查。
 #
 # ⚠ 本文件必须保存为 UTF-8「带 BOM」：本机 PowerShell 5.1 + ANSI 代码页 936，
@@ -40,7 +41,13 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
 public static class AnnoScan {
-    // 返回 [红像素数, 白像素数, minX, minY, maxX, maxY, 图宽, 图高]
+    // 返回 [红像素数, 白像素数, minX, minY, maxX, maxY, 图宽, 图高, 密集行数]
+    //
+    // 包围盒只统计「密集行」：某一行红像素数 >= max(8, 图宽/100) 才算文字行。
+    // 现场照片里天然存在饱和红色（红土、砖块、红旗、反光），若把零星红像素也算进
+    // 包围盒，位置判定会被污染（实测南侧护坡4.jpg 有 88 个红土像素落在 y=250..299）。
+    // 文字笔画每行有数百个红像素，远超该阈值；因此密集行判定既排除干扰，
+    // 又能在「漏画」或「画错位置」时照常失败。
     public static int[] Run(string path, double wFrac, double hFrac) {
         using (Bitmap bmp = new Bitmap(path)) {
             int rw = (int)(bmp.Width * wFrac); if (rw < 1) rw = 1;
@@ -51,24 +58,49 @@ public static class AnnoScan {
             byte[] buf = new byte[stride * rh];
             Marshal.Copy(data.Scan0, buf, 0, buf.Length);
             bmp.UnlockBits(data);
+
             int red = 0, white = 0;
-            int minX = int.MaxValue, minY = int.MaxValue, maxX = -1, maxY = -1;
+            int[] rowCount = new int[rh];
             for (int y = 0; y < rh; y++) {
                 int row = y * stride;
                 for (int x = 0; x < rw; x++) {
                     int o = row + x * 3;
                     byte b = buf[o], g = buf[o + 1], r = buf[o + 2];
-                    if (r >= 190 && g <= 75 && b <= 75) {
-                        red++;
-                        if (x < minX) minX = x;
-                        if (x > maxX) maxX = x;
-                        if (y < minY) minY = y;
-                        if (y > maxY) maxY = y;
-                    } else if (r >= 235 && g >= 235 && b >= 235) { white++; }
+                    if (r >= 190 && g <= 75 && b <= 75) { red++; rowCount[y]++; }
+                    else if (r >= 235 && g >= 235 && b >= 235) { white++; }
                 }
             }
-            if (maxX < 0) { minX = -1; minY = -1; }
-            return new int[] { red, white, minX, minY, maxX, maxY, bmp.Width, bmp.Height };
+
+            // 先找「密集行」：每行红像素数 >= max(8, 图宽/100)。
+            // 再取其中最长的**连续**一段作为文字块。标注是单行文本、必然连续；
+            // 照片里天然的红斑（红土/砖块/红旗）即便某几行较密，也会被间隔行切断、
+            // 或在长度上输给文字块，因此不会污染位置判定。
+            int denseThreshold = Math.Max(8, bmp.Width / 100);
+            int bestStart = -1, bestLen = 0, curStart = -1, curLen = 0;
+            for (int y = 0; y < rh; y++) {
+                if (rowCount[y] >= denseThreshold) {
+                    if (curLen == 0) curStart = y;
+                    curLen++;
+                    if (curLen > bestLen) { bestLen = curLen; bestStart = curStart; }
+                } else { curLen = 0; }
+            }
+
+            int minX = int.MaxValue, minY = int.MaxValue, maxX = -1, maxY = -1;
+            if (bestLen > 0) {
+                minY = bestStart; maxY = bestStart + bestLen - 1;
+                for (int y = minY; y <= maxY; y++) {
+                    int row = y * stride;
+                    for (int x = 0; x < rw; x++) {
+                        int o = row + x * 3;
+                        byte b = buf[o], g = buf[o + 1], r = buf[o + 2];
+                        if (r >= 190 && g <= 75 && b <= 75) {
+                            if (x < minX) minX = x;
+                            if (x > maxX) maxX = x;
+                        }
+                    }
+                }
+            } else { minX = -1; minY = -1; }
+            return new int[] { red, white, minX, minY, maxX, maxY, bmp.Width, bmp.Height, bestLen };
         }
     }
 
@@ -110,6 +142,7 @@ foreach ($o in $outs) {
     $red = $scan[0]; $white = $scan[1]
     $minX = $scan[2]; $minY = $scan[3]; $maxX = $scan[4]; $maxY = $scan[5]
     $ow = $scan[6]; $oh = $scan[7]
+    $denseRows = $scan[8]   # 密集行数：文字笔画跨多行，天然零星红色不构成密集行
 
     $sw = 0; $sh = 0; $ori = 1
     if ($srcOk) {
@@ -128,15 +161,16 @@ foreach ($o in $outs) {
         $problems.Add("尺寸不符：实际 ${ow}x${oh}，期望 ${expW}x${expH}（源 ${sw}x${sh}，EXIF 方向 $ori）")
     }
     if ($red -lt $MinRedPixels) { $problems.Add("红色像素过少：$red（阈值 $MinRedPixels）") }
+    if ($denseRows -lt 5) { $problems.Add("文字块过薄：密集行仅 $denseRows 行（期望 ≥5）") }
     if ($minX -lt 20) { $problems.Add("标注贴左边：minX=$minX") }
     if ($minY -lt 20) { $problems.Add("标注贴上边：minY=$minY") }
-    if ($maxY -gt 170) { $problems.Add("标注下探过深：maxY=$maxY") }
-    if ($maxX -gt ($ow - 20)) { $problems.Add("标注右侧越界：maxX=$maxX") }
+    if ($maxY -gt 170) { $problems.Add("文字块下探过深：maxY=$maxY") }
+    if ($maxX -gt ($ow - 20)) { $problems.Add("文字块右侧越界：maxX=$maxX") }
 
     if ($problems.Count -gt 0) { $fail.Add("$($o.Name)：$($problems -join '；')") }
     $rows.Add([pscustomobject]@{
-            Name = $o.Name; RedPixels = $red; WhitePixels = $white
-            BBox = "x=$minX..$maxX y=$minY..$maxY"; Dims = "${ow}x${oh}"
+            Name = $o.Name; RedPixels = $red; WhitePixels = $white; DenseRows = $denseRows
+            TextBBox = "x=$minX..$maxX y=$minY..$maxY"; Dims = "${ow}x${oh}"
             SrcDims = "${sw}x${sh}"; ExifOri = $ori; Bytes = $o.Length
         })
 }
@@ -153,12 +187,14 @@ Write-Output "  多余             ：$($extra.Count)"
 Write-Output "  0 字节           ：$($zero.Count)"
 if ($rows.Count -gt 0) {
     $rm = $rows | Measure-Object -Property RedPixels -Minimum -Maximum
-    Write-Output "  红色像素 最小/最大：$($rm.Minimum) / $($rm.Maximum)"
+    $dm = $rows | Measure-Object -Property DenseRows -Minimum -Maximum
+    Write-Output "  红色像素 最小/最大：$($rm.Minimum) / $($rm.Maximum)（含照片天然红色）"
+    Write-Output "  文字块密集行 最小/最大：$($dm.Minimum) / $($dm.Maximum)（位置判定依据）"
     $rot = @($rows | Where-Object { $_.ExifOri -ne 1 }).Count
     Write-Output "  EXIF 摆正张数    ：$rot"
     Write-Output '  --- 样例（前 3 张）---'
     $rows | Select-Object -First 3 | ForEach-Object {
-        Write-Output ("    {0,-40} red={1,-6} {2}  {3}" -f $_.Name, $_.RedPixels, $_.BBox, $_.Dims)
+        Write-Output ("    {0,-40} red={1,-6} rows={2,-4} {3}  {4}" -f $_.Name, $_.RedPixels, $_.DenseRows, $_.TextBBox, $_.Dims)
     }
 }
 if ($missing.Count -gt 0) { $missing | ForEach-Object { Write-Output "    [缺失] $_" } }
